@@ -1,0 +1,46 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@media screen and (min-width: 769px) {
+  #app {
+    zoom: 120%;
+  }
+}
+
+div[class*="language-"] .code-copy {
+  position: absolute;
+  top: auto;
+  bottom: .1em;
+  right: .1px;
+  width: auto;
+
+  > svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  > span {
+    right: 40px;
+  }
+}
+
+.navbar, .navbar div.links {
+  background-color: #282c34;
+
+  &, a, .home-link .site-name {
+    color: #fff;
+  }
+}
+
+.navbar {
+  border-bottom-color: #666;
+}
+
+.sidebar {
+  background-color: #fafbfc;
+}
+
+.medium-zoom--opened .medium-zoom-overlay {
+  opacity: 0.5;
+}
