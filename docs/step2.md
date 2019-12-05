@@ -1,13 +1,143 @@
-# Deploy application
+---
+permalink: step2
+---
 
+# 2. Deploy application
 
+Before going further with our API, let's deploy it, serverless way!
 
+> But we haven't done anything meaningful yet, shouldn't we integrate all our features before deploying?
 
-2. Install NestJS CLI and scaffold new server app
-3. Create get random cat fact endpoint, using static data
-4. Add a global API prefix
-5. Run and test using a pre-made frontend (alt. scenario: prepare frontend in either Angular, React & Vue).
-    1. Need to setup server with local proxy to API to avoid CORS issue at this point
-6. Update NestJS app to serverless using @nestjs/azure-func-http, test with func cli
-7. Create the resources and deploy to Azure Functions
-8. Test the frontend with deployed API URL, fix CORS issue using az cli
+Not at all! Deploying **early** and **frequently** is a factor of success in software development and a [DevOps](https://azure.microsoft.com/overview/what-is-devops/?WT.mc_id=nitro-workshop-yolasors) best practice.
+
+## Go serverless
+
+Why serverless? Why not deploy our app using a container or a managed service, like [Azure App Service](https://docs.microsoft.com/azure/app-service/?WT.mc_id=nitro-workshop-yolasors) for instance? There are 2 main reasons for that:
+
+- You only pay for what you use, not for the resource allocation (and it's [dead cheap](https://dev.to/azure/is-serverless-really-as-cheap-as-everyone-claims-4i9n))
+- It scales automatically without anything to setup
+
+First, let's update our NestJS app into a serverless app so we can deploy it to [Azure Functions](https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=nitro-workshop-yolasors).
+
+::: info What's Azure Functions?
+It's a solution for running small pieces of code, or *functions*, in the cloud. You just write the code for the problem at hand in your preferred language, without worrying about the infrastructure or enclosing app to run it.
+:::
+
+Open a terminal and run this command:
+```sh
+nest add @nestjs/azure-func-http
+```
+
+And... That's it. Really.
+
+![grandma looking surprised](./images/thats-it.jpg)
+
+Thanks to the included schematics, your server code is now ready to be deployed on Azure Functions. And the best part is that nothing was changed in your code, it can still run locally like previously.
+
+If you take a closer look, here is what has been added:
+
+- `main`: a folder containing the Azure Functions trigger config and entry point
+- `src/main.azure.ts`: an alternative entry point for your server app that will be used only on Azure Functions (thus leaving the regular entry point intact).
+- Some config files in the project's root, we do not need to care about them for now.
+- A new `start:azure` NPM script in your `package.json` file, allowing to run your API locally but with the Azure Functions simulator this time.
+
+To be able to use the command `npm run start:azure`, you must have installed the [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v2?WT.mc_id=nitro-workshop-yolasors) with the [prerequisites](/env). It will provide the `func` CLI that you can use to test your functions and deploy them to Azure.
+
+Now let's test our API running on a function:
+
+```sh
+npm run start:azure
+```
+
+If everything is working well, at some point you should see this log in the console:
+
+```
+Now listening on: http://0.0.0.0:7071
+Application started. Press Ctrl+C to shut down.
+
+Http Functions:
+
+        main:  http://localhost:7071/api/{*segments}
+```
+
+That means that your API should be working on port `7071`, let's test it again using curl:
+
+```sh
+curl http://localhost:7071/api/stories/random
+```
+
+## Create the resources
+
+Now that your API is ready to run on Functions, let's deploy it to the real thing!
+
+First, we have to create some Azure resources. For that we will use the Azure CLI commands:
+
+```sh
+# Create a new resource group
+az group create --name funpets --location northeurope
+
+# Create the storage account
+# This name must be globally unique, so change it with your own
+az storage account create --name funpets \
+                          --resource-group funpets \
+                          --kind StorageV2
+
+# Create the function app
+# This name must be globally unique, so change it with your own
+az functionapp create --name funpets-api \
+                      --resource-group funpets \
+                      --consumption-plan-location northeurope \
+                      --storage-account funpets
+```
+
+The first thing we created is a [**resource group**](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview?WT.mc_id=nitro-workshop-yolasors#resource-groups), a collection of Azure resources. It's typically used to group related resources for an application, by environment (production vs testing for example) or anything as needed.
+
+Then we added a [**storage account**](https://docs.microsoft.com/azure/storage/common/storage-introduction?WT.mc_id=nitro-workshop-yolasors#azure-storage-services) that will be used to store our app data, file and even application code. 
+
+Finally, we added a [**function app**](https://docs.microsoft.com/azure/azure-functions/functions-overview?WT.mc_id=nitro-workshop-yolasors) on which you will deploy your API.
+
+## Deploy your app
+
+Now that we have the resources created on Azure, we can use the `func` CLI to deploy our API:
+
+```sh
+# Build your app
+npm run build
+
+# Clean up node_modules to keep only production dependencies
+npm prune --production
+
+# Create an archive from your local files and publish it
+# Don't forget to change the name with the one you used previously
+func azure functionapp publish funpets-api
+```
+
+After publishing, you should see in the console the URL you can use to invoke the function, like this:
+
+```
+Functions in catfacts-api:
+    main - [httpTrigger]
+        Invoke url: https://<your-funpets-api>.azurewebsites.net/api/{*segments}
+```
+
+We can invoke our trusty `curl` command again to check the deployment using the previous URL:
+
+```sh
+curl https://<your-funpets-api>.azurewebsites.net/api/stories/random
+```
+
+Server deployment, done ✔️.
+
+Though there's one bothering thing here as we used manual deployment directly on our source code, is that we removed our dependencies needed for development 😞, so we have to install them again to continue working:
+```sh
+npm install
+```
+
+::: tip Pro tip
+When working on a production app, you should not deploy directly from your local source code, but rather connect your source code repository to a continuous integration and deployment system (CI/CD). You can either do that using [Azure DevOps](https://docs.microsoft.com/azure/devops-project/azure-devops-project-github?WT.mc_id=nitro-workshop-yolasors) or directly connect your repository for deployment using this command:
+```sh
+az functionapp deployment source config --name <your-funpets-api> \
+                                        --resource-group funpets \
+                                        --repo-url <your-git-repo-url>
+```
+:::

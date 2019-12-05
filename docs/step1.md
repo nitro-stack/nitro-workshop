@@ -2,9 +2,9 @@
 permalink: step1
 ---
 
-# Bootstrap project
+# 1. Bootstrap project
 
-First let's create a new folder in which we will put our server code.
+First, let's create a new folder in which we will put our server code.
 ```sh
 mkdir funpets
 cd funpets
@@ -19,17 +19,17 @@ nest new funpets-server
 cd funpets-server
 ```
 
-It will create the base project configuration and install packages. Once it's done, you can test if it's working properly by running the command:
+It will create the base project configuration and install packages. Once it's done, you can test if it's working correctly by running the command:
 ```sh
 npm start
 ```
 
-It should start the server and prints some logs in the console once it's started. Open a new terminal and run this command to check that it's responding:
+It should start the server and print some logs in the console once it's started. Open a new terminal and run this command to check that it's responding:
 ```sh
 curl http://localhost:3000
 ```
 
-You should see `Hello World!` in the console if everything is working well.
+You should see `Hello World!` in the console if everything works well.
 
 ## Add your first endpoint
 
@@ -70,6 +70,13 @@ export class StoriesController {
 }
 ```
 
+Finally, add `Get` to the existing import so we can use this annotation:
+
+```ts
+import { Controller, Get } from '@nestjs/common';
+```
+
+
 Now let's break down what we just did:
 
 - The `@Controller()` annotation specifies that this class will handle incoming **requests** and return **responses** to the client. The optional argument `'facts'` used here will be used as the base **route** prefix for all handlers defined within that class.
@@ -99,18 +106,18 @@ After this change, our HTTP endpoint will be `GET /api/stories/random`.
 
 ## Run the server
 
-Our server is now ready for local testing, you can run it with the command:
+Our server is now ready for local testing, start it with the command:
 
 ```sh
-$ npm start
+npm start
 ```
 
-After the server is started, you can test if our API is responding properly using `curl`:
+After the server is started, you can test if our API is responding correctly using `curl`:
 
 ```sh
-$ curl http://localhost:3000/api/stories/random
+curl http://localhost:3000/api/stories/random
 ```
 
 You should see a random cat fact in the console each time you invoke this command. You now have a working API! 🎉
 
-Ok this was just the warmup to get a hand of the NestJS API, now let's deploy what we just built before moving on to more serious stuff 💪.
+Ok, this was just the warmup to get a hand of the NestJS API, now let's deploy what we just built before moving on to more serious stuff 💪.

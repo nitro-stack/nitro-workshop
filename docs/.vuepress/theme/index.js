@@ -28,6 +28,12 @@ module.exports = (options, ctx) => {
       '@vuepress/search',
       '@vuepress/plugin-nprogress',
       ['container', {
+        type: 'info',
+        defaultTitle: {
+          '/': 'INFO',
+        }
+      }],
+      ['container', {
         type: 'tip',
         defaultTitle: {
           '/': 'TIP',

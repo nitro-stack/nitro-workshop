@@ -23,7 +23,7 @@
   "scripts": {
     "start": "vuepress dev docs --no-cache",
     "build": "vuepress build docs",
-    "devcontainer:update": "cd src && zip -R ../docs/.vuepress/public/devcontainer.zip .devcontainer/*",
+    "devcontainer:update": "cd src && zip -Rf ../docs/.vuepress/public/devcontainer.zip .devcontainer/*",
     "release": "npm run devcontainer:update -s && npm run build -s"
   },
   "keywords": [],

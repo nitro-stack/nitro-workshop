@@ -95,10 +95,11 @@ kbd
 
 blockquote
   font-size 1rem
-  color #999;
-  border-left .2rem solid #dfe2e5
+  color $blockquoteColor;
+  border-left .2rem solid lighten($blockquoteColor, 50%)
   margin 1rem 0
   padding .25rem 0 .25rem 1rem
+  background: #f9f9f9
 
   & > p
     margin 0

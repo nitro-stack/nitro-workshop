@@ -33,7 +33,6 @@ module.exports = {
   },
   plugins: [
     // 'social-share',
-    '@vuepress/active-header-links',
     ['vuepress-plugin-code-copy', {
       color: '#fff',
       backgroundTransition: false

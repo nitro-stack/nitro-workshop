@@ -7,14 +7,14 @@ In this workshop, we will:
 - Create a file upload API to store images in the cloud
 - Deploy your API using Azure Serverless platform
 
-Because it's better to learn new things while having fun, we will build a service to share fun facts and pictures about your favorite pets! 🐱🐶🐹🐰
+Because it's better to learn new things while having fun, we will build a social service to share fun facts and pictures about your favorite pets! 🐱🐶🐹🐰
 
 ## Meet the stack
 
 Our focus will be centered on NestJS and Azure.
 If you never used these tools before don't worry, it's the perfect chance to get to know them. Here is a quick presentation for starters.
 
-### NestJS [(https://docs.nestjs.com)](https://docs.nestjs.com) 
+### NestJS [(docs.nestjs.com)](https://docs.nestjs.com) 
 
 ![nestjs logo](./images/nestjs.svg =100x)
 
@@ -26,18 +26,20 @@ Under the hood, NestJS makes uses of [Express](https://expressjs.com) HTTP serve
 NestJS leverages similar concepts, features, architecture and tools as [Angular](https://angular.io) framework, but tailored for Node.js backend development.
 :::
 
-### Azure [(https://azure.microsoft.com/overview)](https://azure.microsoft.com/overview/what-is-azure/?WT.mc_id=nitrows-event-yolasors)
+### Azure [(azure.microsoft.com/overview)](https://azure.microsoft.com/overview/what-is-azure/?WT.mc_id=nitro-workshop-yolasors)
 
 ![azure logo](./images/azure.svg =400x)
 
-Azure is Microsoft's cloud computing offer for building, testing, deploying and managing applications and services. The platform provides [IaaS](https://azure.microsoft.com/overview/what-is-iaas/?WT.mc_id=nitrows-event-yolasors), [PaaS](https://azure.microsoft.com/overview/what-is-paas/?WT.mc_id=nitrows-event-yolasors) and [SaaS](https://azure.microsoft.com/overview/what-is-saas/?WT.mc_id=nitrows-event-yolasors) solutions with an ever extending range of services.
+Azure is Microsoft's cloud computing offer for building, testing, deploying and managing applications and services. The platform provides [IaaS](https://azure.microsoft.com/overview/what-is-iaas/?WT.mc_id=nitro-workshop-yolasors), [PaaS](https://azure.microsoft.com/overview/what-is-paas/?WT.mc_id=nitro-workshop-yolasors) and [SaaS](https://azure.microsoft.com/overview/what-is-saas/?WT.mc_id=nitro-workshop-yolasors) solutions with an ever extending range of services.
 
-For this workshop, we will use [serverless services](https://azure.microsoft.com/solutions/serverless/?WT.mc_id=nitrows-event-yolasors) to store data and host our application without having to manage any of the underlying infrastructure. In particular:
-- [Azure Functions](https://azure.microsoft.com/services/functions/?WT.mc_id=nitrows-event-yolasors) to deploy application code
-- [Azure Table Storage](https://azure.microsoft.com/services/storage/tables/?WT.mc_id=nitrows-event-yolasors), a simple NoSQL database to store our entities
-- [Azure Blob Storage](https://azure.microsoft.com/services/storage/blobs/?WT.mc_id=nitrows-event-yolasors) to store image files
+For this workshop, we will use [serverless services](https://azure.microsoft.com/solutions/serverless/?WT.mc_id=nitro-workshop-yolasors) to store data and host our application without having to manage any of the underlying infrastructure. In particular:
+- [Azure Functions](https://azure.microsoft.com/services/functions/?WT.mc_id=nitro-workshop-yolasors) to deploy application code
+- [Azure Table Storage](https://azure.microsoft.com/services/storage/tables/?WT.mc_id=nitro-workshop-yolasors), a simple NoSQL database to store our entities
+- [Azure Blob Storage](https://azure.microsoft.com/services/storage/blobs/?WT.mc_id=nitro-workshop-yolasors) to store image files
 
-### Nitro [(https://nitro.ooo)](https://nitro.ooo)
+### Nitro [(nitro.ooo)](https://nitro.ooo)
+
+![nestjs logo](nitro.png =100x)
 
 Nitro is a growing set of open-source developer tools to help you build, deploy and scale Node.js apps on Microsoft Azure.
 

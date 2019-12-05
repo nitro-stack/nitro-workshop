@@ -1,1 +1,5 @@
-# Integrate file upload
+---
+permalink: step4
+---
+
+# 4. Integrate file upload
