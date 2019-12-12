@@ -15,7 +15,7 @@ Not at all! Deploying **early** and **frequently** is a factor of success in sof
 Why serverless? Why not deploy our app using a container or a managed service, like [Azure App Service](https://docs.microsoft.com/azure/app-service/?WT.mc_id=nitro-workshop-yolasors) for instance? There are 2 main reasons for that:
 
 - You only pay for what you use, not for the resource allocation (and it's [dead cheap](https://dev.to/azure/is-serverless-really-as-cheap-as-everyone-claims-4i9n))
-- It scales automatically without anything to setup
+- It scales automatically without any additional setup
 
 First, let's update our NestJS app into a serverless app so we can deploy it to [Azure Functions](https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=nitro-workshop-yolasors).
 
