@@ -3,7 +3,7 @@
 {
 	"name": "Nitro Workshop",
 	"dockerFile": "Dockerfile",
-	"appPort": 3000,
+	"appPort": [3000, 7071],
 
 	// Use 'settings' to set *default* container specific settings.json values on container create. 
 	// You can edit these settings after create using File > Preferences > Settings > Remote.
