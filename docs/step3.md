@@ -8,14 +8,14 @@ Now that we have everything set up for our application code and deployment, we c
 
 ## Configure Table Storage
 
-[Table Storage](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview) is a simple NoSQL key/value data store that will allow us to quickly store and retrieve data.
+[Table Storage](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview) is a simple NoSQL key/value data store that will allow you to save and retrieve data.
 
-We already created a storage account in the previous step, so we now have to generate an access token to allow our application to manipulate data in it:
+You already created a storage account in the previous step, so you now have to generate an access token to allow our application to manipulate data in it:
 
 ```sh
 # Get the storage account connection string
 # Use here the storage account name you set in the previous step
-az storage account show-connection-string --name  <your_storage_account_name>
+az storage account show-connection-string --name <your_storage_account_name>
 
 # Generate the SAS key
 # It will be valid until the defined expiry date
@@ -26,11 +26,10 @@ az storage account generate-sas --account-name <your_storage_account_name> \
 ```
 
 Now edit the file `local.settings.json`, and add these properties to the `Values` list:
-
 ```json
-    "AZURE_STORAGE_ACCOUNT": "<your storage account name>",
-    "AZURE_STORAGE_CONNECTION_STRING": "<your storage account connection string>",
-    "AZURE_STORAGE_SAS_KEY": "<your SAS key>"
+"AZURE_STORAGE_ACCOUNT": "<your storage account name>",
+"AZURE_STORAGE_CONNECTION_STRING": "<your storage account connection string>",
+"AZURE_STORAGE_SAS_KEY": "<your SAS key>"
 ```
 
 These values will be exposed to our app as **environment variables** by the Functions runtime, to allow access to your Azure storage.
@@ -58,23 +57,10 @@ Open the file `src/app.module.ts`, and add the `AzureTableStorageModule` to the 
 Don't forget to add the missing imports at the top:
 ```ts
 import { AzureTableStorageModule } from '@nestjs/azure-database';
-import { Story } from './stories/story.entity.ts';
+import { Story } from './stories/story.entity';
 ```
 
 But hey, we don't have a `Story` entity yet? That's right, let's create it!
-
-
-<!-- az functionapp config appsettings set --name funpets-api -g funpets --settings 'SCM_DO_BUILD_DURING_DEPLOYMENT=true'
-
-SCM_DO_BUILD_DURING_DEPLOYMENT=true -->
-
-<!-- Then create a `.env` file at the root of the server folder with the generated key and connection string, like this:
-
-```
-AZURE_STORAGE_ACCOUNT=<your storage account name>
-AZURE_STORAGE_CONNECTION_STRING=<your storage account connection string>
-AZURE_STORAGE_SAS_KEY=<your SAS key> -->
-```
 
 ## Create an entity
 
@@ -82,32 +68,142 @@ A database entity is used to model the properties of whatever object you would l
 
 Create a new file `stories/story.entity.ts` with this code:
 ```ts
+@EntityPartitionKey('stories')
+@EntityRowKey('id')
+export class Story {
+  @EntityString() animal: string;
+  @EntityString() description: string;
+  @EntityString() imageUrl: string;
+  @EntityDateTime() createdAt: Date;
 
+  constructor(story?: Partial<Story>) {
+    Object.assign(this, story);
+  }
+}
 ```
 
+Now let's break down the annotations we have used:
 
+- `@EntityPartitionKey` defines the table storage [`PartitionKey`](https://docs.microsoft.com/en-us/rest/api/storageservices/understanding-the-table-service-data-model#partitionkey-property) which can be used to for load balancing across storage nodes.
+- `@EntityRowKey` is the unique identifier of an entity with a given partition.
+- The entity types annotations such as `@EntityString` represent the data type of each property.
+You can find here the complete list of [Entity Data Model types](https://docs.microsoft.com/fr-fr/dotnet/framework/data/adonet/entity-data-model-primitive-data-types)
 
-## Create the service
+## Inject the service
+
+The next step is to inject the service that provides methods to perform CRUD operations on entities. The `@nestjs/azure-database` package gives you just that, using the annotation `@InjectRepository`.
+
+Open the file `src/stories/stories.controller.ts` and add this constructor:
+
+```ts
+@Controller('stories')
+export class StoriesController {
+  constructor(
+    @InjectRepository(Story)
+    private readonly storiesRepository: Repository<Story>,
+  ) {}
+  ...
+}
+```
+
+Don't forget to add these missing imports at the top of the file:
+
+```ts
+import { InjectRepository, Repository } from '@nestjs/azure-database';
+import { Story } from './story.entity';
+```
+
+You can now use `this.storiesRepositoy` within your controller to perform [CRUD operations](https://github.com/nestjs/azure-database#crud-operations):
+
+- `create(entity: T, rowKeyValue?: string): Promise<T>`: creates a new entity (if rowKeyValue is null, a UUID will be generated).
+- `find(rowKey: string, entity: Partial<T>): Promise<T>`: finds one entity using its RowKey.
+- `findAll(tableQuery?: azure.TableQuery, currentToken?: azure.TableService.TableContinuationToken): Promise<AzureTableStorageResultList<T>>`: finds all entities that match the given query (return all entities if no query provided).
+- `update(rowKey: string, entity: Partial<T>): Promise<T>`: Updates an entity. It does a partial update.
+- `delete(rowKey: string, entity: T): Promise<AzureTableStorageResponse>`: Removes an entity from the database.
 
 ## Add new endpoints
 
+Now you have everything needed to create new endpoints to create and get stories:
+```
+GET /stories/:id  // Get the story with the specified ID
+GET /stories      // Get all stories
+POST /stories     // Create a new story
+```
 
-get/ stories/:id
+Let's start with the first one, to retrieve a single story using its ID. 
+Add this method to your controller:
 
-get/ stories
-post/ stories
-delete/ stories/:id
+```ts
+  @Get(':id')
+  async getStory(@Param('id') id): Promise<Story> {
+    try {
+      return await this.storiesRepository.find(id, new Story());
+    } catch (error) {
+      // Entity not found
+      throw new NotFoundException(error);
+    }
+  }
+```
 
+We use the `@Get()` annotation like in [Step 1](./step1.md#Add-your-first-endpoint), but this time specified a [route parameter](https://docs.nestjs.com/controllers#route-parameters) using `:id`.
+This parameter can then be retrieved with the function arguments using the `@Param('id')` annotation.
 
+Then we call the `storiesRepository.find()` method to find the matching entity. In case it's not found, we catch the error and return a status `404` error using NestJS  predefined exception class `NotFoundException`.
 
-1. Create table storage with az cli, and sas token
-2. Integrate @nestjs/azure-table-storage
-3. Create cat fact entity
-4. Create CRUD service connected to table storage
-5. Update get cat fact endpoint using service
+After that, it's time for you to work a bit by yourself to add the 2 remaining endpoints 😉.
+
+::: tip Note
+For the create endpoint, if the property `createdAt` is not set, it should be added with the current date.
+:::
+
+If you're stuck, you may find some help in the [NestJS documentation](https://docs.nestjs.com/controllers#full-resource-sample) and [@nestjs/azure-database documentation](https://github.com/nestjs/azure-database#crud-operations).
+
+## Testing your endpoints
+
+After you finished adding the new endpoints, start your server using the functions emulator:
+
+```sh
+npm run start:azure
+```
+
+After the server is started, you can test if your new endpoints behave correctly using `curl`:
+
+```sh
+curl http://localhost:7071/api/stories
+# should return an empty list: []
+
+curl http://localhost:7071/api/stories/0
+# should return 404 with an error
+
+curl http://localhost:7071/api/stories -X POST -H "content-type: application/json" -d'{ "animal": "cat", "description": "Cats have supersonic hearing" }'
+# should return the newly created story
+
+curl http://localhost:7071/api/stories
+# should return a list with the previously added story
+
+curl http://localhost:7071/api/stories/<RowKey_from_post_command>
+# should return this single story
+```
+
+TODO:
 6. Go to web storage explorer, import pre-made data to populate the DB
-7. Test the get endpoint with curl
-8. Create post / delete cat fact endpoint
-9. Test the new endpoints with curl
-10. Redeploy
-11. Test with frontend
+8. Develop+Test with frontend
+
+# Redeploy
+
+Now that everything works locally, let's deploy your latest changes:
+
+```sh
+# Build your app
+npm run build
+
+# Create an archive from your local files and publish it
+# Don't forget to change the name with the one you used previously
+func azure functionapp publish funpets-api
+```
+
+Then invoke one of the newer API to check that deployment went fine:
+
+```sh
+curl https://<your-funpets-api>.azurewebsites.net/api/stories
+```
