@@ -1,4 +1,6 @@
 ---
+title: Nitro Workshop - Step 1
+description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
 permalink: step1
 ---
 

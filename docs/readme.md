@@ -1,10 +1,12 @@
 ---
+title: Nitro Workshop
+description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
 home: true
 heroImage: nitro.png
 heroText: Nitro workshop
 tagline: Learn how to build a backend using the fastest growing NodeJS framework in the world, NestJS.
 actionText: Get Started →
-actionLink: /intro/
+actionLink: /intro
 features:
 - title: 🏗 Practice
   details: Hands-on workshop where you will build a real API step-by-step, with pro tips along the way.
@@ -12,7 +14,7 @@ features:
   details: Starting from scratch, you will build an API covering most common use cases, up to its deployment in the cloud.
 - title: ⚡ Scale
   details: Coupling NestJS framework along with Azure Serverless platform, learn how to build apps than can scale to millions .
-footer: Built with ❤️ by @sinedied
+footer: ' '
 ---
 ::: slot footer
 Built with ❤️ by [@sinedied](https://twitter.com/sinedied)
