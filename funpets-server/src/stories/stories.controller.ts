@@ -1,4 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, NotFoundException, Post, Body } from '@nestjs/common';
+import { InjectRepository, Repository } from '@nestjs/azure-database';
+import { Story } from './story.entity';
 
 // Some cat facts, courtesy of https://catfact.ninja
 const funFacts = [
@@ -17,10 +19,39 @@ const funFacts = [
 
 @Controller('stories')
 export class StoriesController {
+  constructor(
+    @InjectRepository(Story)
+    private readonly storiesRepository: Repository<Story>,
+  ) {}
 
   @Get('random')
   getRandomStory(): string {
     return funFacts[Math.floor(Math.random() * funFacts.length)];
+  }
+
+  @Get(':id')
+  async getStory(@Param('id') id): Promise<Story> {
+    try {
+      return await this.storiesRepository.find(id, new Story());
+    } catch (error) {
+      // Entity not found
+      throw new NotFoundException(error);
+    }
+  }
+
+  @Get()
+  async getStories(): Promise<Story[]> {
+    const result = await this.storiesRepository.findAll();
+    return result.entries;
+  }
+
+  @Post()
+  async createStory(@Body() data: Partial<Story>): Promise<Story> {
+    const story = new Story(data);
+    if (!story.createdAt) {
+      story.createdAt = new Date();
+    }
+    return await this.storiesRepository.create(story);
   }
 
 }

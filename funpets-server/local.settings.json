@@ -1,6 +1,9 @@
 {
   "IsEncrypted": false,
   "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "node"
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AZURE_STORAGE_ACCOUNT": "<your storage account name>",
+    "AZURE_STORAGE_CONNECTION_STRING": "<your storage account connection string>",
+    "AZURE_STORAGE_SAS_KEY": "<your SAS key>"
   }
 }
