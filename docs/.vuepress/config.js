@@ -14,6 +14,7 @@ module.exports = {
     // ['meta', { name: 'msapplication-TileImage', content: '/icons/msapplication-icon-144x144.png' }],
     ['meta', { name: 'msapplication-TileColor', content: '#0078d7' }]
   ],
+  base: 'nitro-workshop',
   themeConfig: {
     logo: '/nitro.png',
     sidebar: [   
@@ -22,7 +23,8 @@ module.exports = {
       '/step1',
       '/step2',
       '/step3',
-      '/step4',
+      // '/step4',
+      // '/step5',
       '/conclusion'
     ],
     nav: [
@@ -46,7 +48,7 @@ module.exports = {
     }],
     ['@limdongjin/vuepress-plugin-simple-seo', {
       default_image: '/nitro.jpg',
-      root_url: 'https://TODO.com',
+      root_url: 'https://nitro-stack.github.io/nitro-workshop/',
       default_site_name: 'Nitro Workshop - Learn how to make Node.js serverless REST APIs with NestJS and Azure'
     }],
     ['@vuepress/medium-zoom', {
