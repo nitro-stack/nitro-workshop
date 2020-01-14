@@ -4,7 +4,7 @@
 To follow this workshop, you need these to have these tools installed:
 
 - A working [Node.js](https://nodejs.org) environment (latest LTS version recommended)
-- The [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest?WT.mc_id=nitro-workshop-yolasors) to create resources on Azure. If you do not want to install it locally, you can use [https://shell.azure.com?WT.mc_id=nitro-workshop-yolasors](https://shell.azure.com/?WT.mc_id=nitro-workshop-yolasors).
+- The [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest?WT.mc_id=nitro-workshop-yolasors) to create resources on Azure. If you do not want to install it locally, you can use [shell.azure.com](https://shell.azure.com/?WT.mc_id=nitro-workshop-yolasors).
 - [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v2?WT.mc_id=nitro-workshop-yolasors) to test your functions locally.
 - A code editor of your choice. If you don't have any code editor installed on your machine, you can install [Visual Studio Code](https://code.visualstudio.com?WT.mc_id=nitro-workshop-yolasors).
 
