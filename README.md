@@ -3,7 +3,7 @@
 > Learn how to build a backend using the fastest growing NodeJS framework in the world, NestJS.
 > This is a practical workshop where you'll learn "hands-on" by iteratively building an application from scratch using NestJS and Azure. 
 
-See the [online Nitro workshop website](https://nitro-stack.github.io/nitro-workshop) to get started.
+See the [online Nitro workshop website](https://nitro-stack.github.io/nitro-workshop/) to get started.
 
 # About Nitro
 
