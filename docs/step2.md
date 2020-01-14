@@ -98,18 +98,29 @@ Finally, we added a [**function app**](https://docs.microsoft.com/azure/azure-fu
 
 ## Deploy your app
 
-Now that we have the resources created on Azure, we can use the `func` CLI to deploy our API:
+To make deployment easier and faster for this workshop we will add a bit of specific configuration to your function app:
+
+```sh
+# Don't forget to change the name with your own
+az functionapp config appsettings set --name funpets-api \
+                                      --resource-group funpets \
+                                      --settings 'SCM_DO_BUILD_DURING_DEPLOYMENT=true'
+```
+
+Then edit the `.funcignore` file and add a line with `node_modules` at the bottom.
+
+The `SCM_DO_BUILD_DURING_DEPLOYMENT=true` setting will enable a "build" step for zip deployments, which for Node.js apps translates to `npm install` being called on the server directly.
+This way you don't have to package the required `node_modules` with your app, reducing upload times a lot.
+
+Now that we have the resources created and configured on Azure, we can use the `func` CLI to deploy our API:
 
 ```sh
 # Build your app
 npm run build
 
-# Clean up node_modules to keep only production dependencies
-npm prune --production
-
 # Create an archive from your local files and publish it
 # Don't forget to change the name with the one you used previously
-func azure functionapp publish funpets-api
+func azure functionapp publish funpets-api --nozip
 ```
 
 After publishing, you should see in the console the URL you can use to invoke the function, like this:
@@ -128,16 +139,15 @@ curl https://<your-funpets-api>.azurewebsites.net/api/stories/random
 
 Server deployment, done ✔️.
 
-Though there's one bothering thing here as we used manual deployment directly on our source code, is that we removed our dependencies needed for development 😞, so we have to install them again to continue working:
-```sh
-npm install
-```
-
-::: tip Pro tip
+::: tip Pro tip #1
 When working on a production app, you should not deploy directly from your local source code, but rather connect your source code repository to a continuous integration and deployment system (CI/CD). You can either do that using [Azure DevOps](https://docs.microsoft.com/azure/devops-project/azure-devops-project-github?WT.mc_id=nitro-workshop-yolasors) or directly connect your repository for deployment using this command:
 ```sh
 az functionapp deployment source config --name <your-funpets-api> \
                                         --resource-group funpets \
                                         --repo-url <your-git-repo-url>
 ```
+:::
+
+::: tip Pro tip #2
+For this workshop, we use the `--nozip` option for deployment to disable the *Run-From-Package* mode that runs the app directly from a read-only zip package. This is needed to run `npm install` remotely thanks to the `SCM_DO_BUILD_DURING_DEPLOYMENT=true` setting, to reduce upload times. But for production environments, you should avoid using that as your application startup time is slightly longer when `--nozip` option is used.
 :::
