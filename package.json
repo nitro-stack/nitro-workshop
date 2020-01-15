@@ -15,16 +15,19 @@
     "@vuepress/plugin-medium-zoom": "^1.2.0",
     "@vuepress/plugin-pwa": "^1.2.0",
     "dotenv": "^8.2.0",
+    "gh-pages": "^2.2.0",
     "markdown-it-imsize": "^2.0.1",
     "vuepress": "^1.2.0",
-    "vuepress-plugin-container": "^2.1.1",
-    "vuepress-plugin-social-share": "^0.1.0"
+    "vuepress-plugin-container": "^2.1.2",
+    "vuepress-plugin-social-share": "^0.1.2"
   },
   "scripts": {
     "start": "vuepress dev docs --no-cache",
-    "build": "vuepress build docs",
-    "devcontainer:update": "cd src && zip -Rf ../docs/.vuepress/public/devcontainer.zip .devcontainer/*",
-    "release": "npm run devcontainer:update -s && npm run build -s"
+    "build": "vuepress build docs -d dist",
+    "build:release": "npm run devcontainer:update -s && npm run build -s",
+    "devcontainer:update": "cd src && zip -R ../docs/.vuepress/public/devcontainer.zip .devcontainer/*",
+    "deploy": "gh-pages -d dist",
+    "release": "npm run build:release -s && npm run deploy -s"
   },
   "keywords": [],
   "author": "",
