@@ -1,5 +1,5 @@
 ---
-title: Nitro Workshop - Prerequisites
+title: Prerequisites
 description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
 ---
 

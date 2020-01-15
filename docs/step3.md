@@ -1,5 +1,5 @@
 ---
-title: Nitro Workshop - Step 3
+title: Step 3
 description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
 permalink: step3
 ---
@@ -10,7 +10,7 @@ Now that we have everything set up for our application code and deployment, we c
 
 ## Configure Table Storage
 
-[Table Storage](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview) is a simple NoSQL key/value data store that will allow you to save and retrieve data.
+[Table Storage](https://docs.microsoft.com/azure/storage/tables/table-storage-overview?WT.mc_id=nitro-workshop-yolasors) is a simple NoSQL key/value data store that will allow you to save and retrieve data.
 
 You already created a storage account in the previous step, so you now have to generate an access token to allow our application to manipulate data in it:
 
@@ -38,13 +38,13 @@ These values will be exposed to our app as **environment variables** by the Func
 
 ## Integrate with NestJS
 
-You are now ready to integrate the database with your NestJS application. First you have to install the `@nestjs/azure-database` package with this command:
+You are now ready to integrate the database with your NestJS application. First, you have to install the `@nestjs/azure-database` package with this command:
 
 ```sh
 npm install @nestjs/azure-database
 ```
 
-Open the file `src/app.module.ts`, and add the `AzureTableStorageModule` to the modules imports:
+Open the file `src/app.module.ts` and add the `AzureTableStorageModule` to the module imports:
 ```ts
 @Module({
   imports: [
@@ -86,10 +86,10 @@ export class Story {
 
 Now let's break down the annotations we have used:
 
-- `@EntityPartitionKey` defines the table storage [`PartitionKey`](https://docs.microsoft.com/en-us/rest/api/storageservices/understanding-the-table-service-data-model#partitionkey-property) which can be used to for load balancing across storage nodes.
+- `@EntityPartitionKey` defines the table storage [`PartitionKey`](https://docs.microsoft.com/rest/api/storageservices/understanding-the-table-service-data-model?WT.mc_id=nitro-workshop-yolasors#partitionkey-property) which can be used to for load balancing across storage nodes.
 - `@EntityRowKey` is the unique identifier of an entity with a given partition.
 - The entity types annotations such as `@EntityString` represent the data type of each property.
-You can find here the complete list of [Entity Data Model types](https://docs.microsoft.com/fr-fr/dotnet/framework/data/adonet/entity-data-model-primitive-data-types)
+You can find here the complete list of [Entity Data Model types](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model-primitive-data-types?WT.mc_id=nitro-workshop-yolasors)
 
 ## Inject the service
 
