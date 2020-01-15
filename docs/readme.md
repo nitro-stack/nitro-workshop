@@ -13,7 +13,7 @@ features:
 - title: ☁️ Deploy
   details: Starting from scratch, you will build an API covering most common use cases, up to its deployment in the cloud.
 - title: ⚡ Scale
-  details: Coupling NestJS framework along with Azure Serverless platform, learn how to build apps than can scale to millions .
+  details: Coupling NestJS framework along with Azure Serverless platform, learn how to build apps that can scale to millions.
 footer: ' '
 ---
 ::: slot footer
