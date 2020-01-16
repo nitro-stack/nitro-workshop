@@ -4,7 +4,7 @@ description: Learn how to make Node.js serverless REST APIs with NestJS and Azur
 home: true
 heroImage: nitro.png
 heroText: Nitro workshop
-tagline: Learn how to build a backend using the fastest growing NodeJS framework in the world, NestJS.
+tagline: Learn how to build and deploy a backend using the fastest growing Node.js framework, NestJS.
 actionText: Get Started →
 actionLink: /intro
 features:
@@ -21,7 +21,7 @@ Built with ❤️ by [@sinedied](https://twitter.com/sinedied)
 :::
 
 
-### What you will learn
+### What you will learn:
 
 1. How to scaffold an application using the **NestJS CLI**
 2. How to create a **Rest API** in NestJS
