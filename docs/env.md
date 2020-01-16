@@ -12,8 +12,6 @@ To follow this workshop, you need these to have these tools installed:
 - [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v2?WT.mc_id=nitro-workshop-yolasors) to test your functions locally.
 - A code editor of your choice. If you don't have any code editor installed on your machine, you can install [Visual Studio Code](https://code.visualstudio.com?WT.mc_id=nitro-workshop-yolasors).
 
-An Azure account is also needed to create resources and deploy the application. If you don't have an account, you can [create one for free using this link](https://azure.microsoft.com/free/?WT.mc_id=nitro-workshop-yolasors). It includes free credits, more than enough to cover usage for this workshop 😉.
-
 ### Alternative: using Docker and Visual Studio Code
 
 If you have Docker and Visual Studio Code installed on your machine, you can use the [Remote Development extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack&WT.mc_id=nitro-workshop-yolasors) and a pre-made Docker image with everything needed installed.
@@ -27,6 +25,26 @@ If you have Docker and Visual Studio Code installed on your machine, you can use
    ![remote extension popup](./images/remote-open.png)
 4. Once the Docker image is built (it might take a few minutes), you should see this in the left part of the status bar
     ![remote extension status command](./images/remote-status.png)
+
+## Configure your Azure account
+
+An Azure subscription is needed to create resources and deploy the application for this workshop.
+
+If you don't have an account, you can [create one for free using this link](https://azure.microsoft.com/free/?WT.mc_id=nitro-workshop-yolasors). It includes free credits, more than enough to cover usage for this workshop 😉.
+
+### I have an Azure Pass
+
+If you are participating in an event and you have an **Azure Pass**, follow these steps instead to create a new subscription.
+
+Before starting, make sure that:
+- You have a Microsoft account (formerly Live). You can create one on [account.microsoft.com](https://account.microsoft.com).
+- Your account was never used for another Azure subscription. Otherwise, you won't be able to use the Azure Pass.
+
+::: warning Important
+If at some point during the registration process you are asked to provide your credit card information, something is not right. Ask help to one of the instructors.
+:::
+
+Open [this link](https://www.microsoftazurepass.com/Home/HowTo?Length=5) and follow the instruction steps. 
 
 ## Test your environment
 
