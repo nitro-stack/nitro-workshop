@@ -21,11 +21,13 @@
     "start:azure": "npm run build && func host start"
   },
   "dependencies": {
-    "@azure/functions": "^1.2.0",
-    "@nestjs/azure-func-http": "^0.4.2",
-    "@nestjs/common": "^6.11.11",
-    "@nestjs/core": "^6.11.11",
-    "@nestjs/platform-express": "^6.11.11",
+    "@azure/functions": "^1.0.3",
+    "@nestjs/azure-database": "^1.0.0",
+    "@nestjs/azure-func-http": "^0.4.1",
+    "@nestjs/azure-storage": "^2.1.0",
+    "@nestjs/common": "^6.10.14",
+    "@nestjs/core": "^6.10.14",
+    "@nestjs/platform-express": "^6.10.14",
     "@nestjs/typeorm": "^6.3.4",
     "mongodb": "^3.5.5",
     "reflect-metadata": "^0.1.13",

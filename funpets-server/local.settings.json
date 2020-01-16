@@ -3,6 +3,8 @@
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "MONGODB_CONNECTION_STRING": "<your mongodb connection string>",
-    "MONGODB_DATABASE": "funpets-db"
+    "MONGODB_DATABASE": "funpets-db",
+    "AZURE_STORAGE_ACCOUNT": "<your storage account name>",
+    "AZURE_STORAGE_SAS_KEY": "<your SAS key>"
   }
 }

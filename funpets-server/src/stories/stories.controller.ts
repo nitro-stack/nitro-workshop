@@ -1,4 +1,19 @@
-import { Controller, Get, Param, NotFoundException, Post, Body } from '@nestjs/common';
+import * as path from 'path';
+import {
+  UseInterceptors,
+  Controller,
+  Get,
+  Param,
+  NotFoundException,
+  Post,
+  Body,
+  UploadedFile,
+  UnsupportedMediaTypeException,
+} from '@nestjs/common';
+import {
+  AzureStorageFileInterceptor,
+  UploadedFileMetadata,
+} from '@nestjs/azure-storage';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MongoRepository } from 'typeorm';
 import { ObjectID } from 'mongodb';
@@ -18,6 +33,30 @@ const funFacts = [
   "A happy cat holds her tail high and steady.",
   "A cat can jump 5 times as high as it is tall."
 ];
+
+// File upload restrictions
+const maxFileSize = 1024 * 1024 * 2; // 2MB
+const allowedExtensions = ['.png', '.jpg', '.jpeg'];
+const fileUploadOptions = {
+  limits: {
+    fileSize: maxFileSize,
+  },
+  fileFilter: (req, file, cb) => {
+    // File extension must match one of the allowed
+    const fileExtension = path.extname(file.originalname);
+    const acceptFile = allowedExtensions.some(ext => fileExtension === ext);
+
+    if (acceptFile) {
+      cb(null, true);
+    } else {
+      cb(
+        new UnsupportedMediaTypeException(
+          `Unsupported file type: ${fileExtension}`,
+        ),
+      );
+    }
+  },
+};
 
 @Controller('stories')
 export class StoriesController {
@@ -47,10 +86,19 @@ export class StoriesController {
   }
 
   @Post()
-  async createStory(@Body() data: Partial<Story>): Promise<Story> {
+  @UseInterceptors(AzureStorageFileInterceptor('file', fileUploadOptions))
+  async createStory(
+    @Body()
+    data: Partial<Story>,
+    @UploadedFile()
+    file: UploadedFileMetadata,
+  ): Promise<Story> {
     const story = new Story(data);
     if (!story.createdAt) {
       story.createdAt = new Date();
+    }
+    if (file) {
+      story.imageUrl = file.storageUrl || null;
     }
     return await this.storiesRepository.save(story);
   }
