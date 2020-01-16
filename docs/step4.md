@@ -71,7 +71,9 @@ async createStory(
   if (!story.createdAt) {
     story.createdAt = new Date();
   }
-  story.imageUrl = file.storageUrl || null;
+  if (file) {
+    story.imageUrl = file.storageUrl || null;
+  }
   return await this.storiesRepository.create(story);
 }
 ```
@@ -90,7 +92,7 @@ After the server is started, you can test if uploading file works using `curl`:
 curl http://localhost:7071/api/stories \
   -F "file=@<path_to_image_file>" \
   -F "animal=cat" \
-  -F "description=Happy cat!"
+  -F "description=Happy cat"
 ```
 
 You can download and use the [the happy cat image](#_4-integrate-file-upload) to test the file upload if don't have an image at hand.
@@ -113,7 +115,10 @@ Now it's your time to work and find out how to restrict file uploads to support 
 - A maximum file size of 2MB
 - `png` and `jpeg` image types
 
-You should look at the [`limits`](https://github.com/expressjs/multer#limits) and [`fileFilter`](https://github.com/expressjs/multer#filefilter) options to see how they work.
+Some hints to get started:
+- Look at the [`limits`](https://github.com/expressjs/multer#limits) and [`fileFilter`](https://github.com/expressjs/multer#filefilter) options to see how they work.
+- You can get the uploaded file name using `file.originalname`.
+- Explore Node.js [`path` module](https://nodejs.org/api/path.html) to get extract extension from a file name.
 
 Don't forget to test your solution with various scenario using `curl`, to make sure your API accepts/rejects files properly!
 
@@ -140,5 +145,5 @@ Then run again the previous `curl` command against your deployed API URL to chec
 curl https://<your-funpets-api>.azurewebsites.net/api/stories
   -F "file=@<path_to_image_file>" \
   -F "animal=cat" \
-  -F "description=Happy cat!"
+  -F "description=Happy cat"
 ```
