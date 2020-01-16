@@ -189,11 +189,26 @@ curl http://localhost:7071/api/stories/<RowKey_from_post_command>
 # should return this single story
 ```
 
-TODO:
-6. Go to web storage explorer, import pre-made data to populate the DB
-8. Develop+Test with frontend
+## Explore your data
 
-# Redeploy
+As you should have created to stories at this point, why not take a look a the data you have created?
+
+You can either use the standalone [Storage Explorer application](https://azure.microsoft.com/fr-fr/features/storage-explorer/) for that, or go to the Azure portal and access the online version.
+
+We only want to give a quick look, so let's use the online version:
+
+1. Open [portal.azure.com](https://portal.azure.com)
+
+2. Use the search bar at the top and enter the name of the storage account you created, then click on it in the search results:
+![searching your storage account](./images/storage1.png)
+
+3. Click on **Storage Explorer** in the resource menu, then unfold the **TABLES** item to open the `stories` container where your data lives in:
+![storage explorer](./images/storage2.png)
+
+From there, you can query your stories, edit or delete them and even create new ones.
+This tool can be helpful to quickly check your data visually and debug things when something's wrong.
+
+## Redeploy
 
 Now that everything works locally, let's deploy your latest changes:
 
