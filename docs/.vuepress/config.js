@@ -23,7 +23,7 @@ module.exports = {
       '/step1',
       '/step2',
       '/step3',
-      // '/step4',
+      '/step4',
       // '/step5',
       '/conclusion'
     ],
@@ -31,6 +31,7 @@ module.exports = {
       { text: 'Home', link: '/' },
       { text: 'Workshop', link: '/intro' },
       { text: 'Nitro website', link: 'https://nitr.ooo' },
+      { text: 'GitHub', link: 'https://github.com/nitro-stack/nitro-workshop' },
     ]
   },
   plugins: [
@@ -44,7 +45,7 @@ module.exports = {
       updatePopup: true
     }],
     ['@vuepress/google-analytics', {
-      'ga': process.env.ga
+      'ga': process.env.GA
     }],
     ['@limdongjin/vuepress-plugin-simple-seo', {
       default_image: '/nitro.png',
@@ -65,4 +66,5 @@ module.exports = {
       md.use(require('markdown-it-imsize'));
     },
   },
+  ga: process.env.ga
 };
