@@ -37,14 +37,14 @@ If you don't have an account, you can [create one for free using this link](http
 If you are participating in an event and you have an **Azure Pass**, follow these steps instead to create a new subscription.
 
 Before starting, make sure that:
-- You have a Microsoft account (formerly Live). You can create one on [account.microsoft.com](https://account.microsoft.com).
+- You have a Microsoft account (formerly Live). You can create one on [account.microsoft.com](https://account.microsoft.com?WT.mc_id=nitro-workshop-yolasors).
 - Your account was never used for another Azure subscription. Otherwise, you won't be able to use the Azure Pass.
 
 ::: warning Important
 If at some point during the registration process you are asked to provide your credit card information, something is not right. Ask help to one of the instructors.
 :::
 
-Open [this link](https://www.microsoftazurepass.com/Home/HowTo?Length=5) and follow the instruction steps. 
+Open [this link](https://www.microsoftazurepass.com/Home/HowTo?Length=5&WT.mc_id=nitro-workshop-yolasors) and follow the instruction steps. 
 
 ## Test your environment
 

@@ -193,11 +193,11 @@ curl http://localhost:7071/api/stories/<RowKey_from_post_command>
 
 As you should have created to stories at this point, why not take a look a the data you have created?
 
-You can either use the standalone [Storage Explorer application](https://azure.microsoft.com/fr-fr/features/storage-explorer/) for that, or go to the Azure portal and access the online version.
+You can either use the standalone [Storage Explorer application](https://azure.microsoft.com/features/storage-explorer/?WT.mc_id=nitro-workshop-yolasors) for that, or go to the Azure portal and access the online version.
 
 We only want to give a quick look, so let's use the online version:
 
-1. Open [portal.azure.com](https://portal.azure.com)
+1. Open [portal.azure.com](https://portal.azure.com?WT.mc_id=nitro-workshop-yolasors)
 
 2. Use the search bar at the top and enter the name of the storage account you created, then click on it in the search results:
 ![searching your storage account](./images/storage1.png)
