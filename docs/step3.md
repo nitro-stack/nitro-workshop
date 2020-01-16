@@ -1,5 +1,4 @@
 ---
-title: Step 3
 description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
 permalink: step3
 ---
@@ -160,7 +159,7 @@ For the create endpoint, if the property `createdAt` is not set, it should be ad
 
 If you're stuck, you may find some help in the [NestJS documentation](https://docs.nestjs.com/controllers#full-resource-sample) and [@nestjs/azure-database documentation](https://github.com/nestjs/azure-database#crud-operations).
 
-## Testing your endpoints
+## Test your endpoints
 
 After you finished adding the new endpoints, start your server using the functions emulator:
 
@@ -177,7 +176,10 @@ curl http://localhost:7071/api/stories
 curl http://localhost:7071/api/stories/0
 # should return 404 with an error
 
-curl http://localhost:7071/api/stories -X POST -H "content-type: application/json" -d'{ "animal": "cat", "description": "Cats have supersonic hearing" }'
+curl http://localhost:7071/api/stories
+  -X POST \
+  -H "content-type: application/json" \
+  -d '{ "animal": "cat", "description": "Cats have supersonic hearing" }'
 # should return the newly created story
 
 curl http://localhost:7071/api/stories

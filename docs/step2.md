@@ -1,5 +1,4 @@
 ---
-title: Step 2
 description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
 permalink: step2
 ---
