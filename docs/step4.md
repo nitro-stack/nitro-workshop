@@ -41,7 +41,7 @@ import { AzureStorageModule } from '@nestjs/azure-storage';
 
 Now let's update the `POST /api/stories` endpoint to add support for image upload.
 
-Open `stories.controller.ts` and update the function you created to create new stories:
+Open `src/stories/stories.controller.ts` and update the function you created to create new stories:
 - Add `@UseInterceptors(AzureStorageFileInterceptor('file'))` just below the `@Post()` annotation.
 - Add `@UploadedFile() file: UploadedFileMetadata` in the function parameters.
 
