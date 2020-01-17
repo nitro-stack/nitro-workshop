@@ -67,7 +67,7 @@ But hey, we don't have a `Story` entity yet? That's right, let's create it!
 
 A database entity is used to model the properties of whatever object you would like to store. In our case, we would like to store fun pets stories, so let's create define a `Story` entity.
 
-Create a new file `stories/story.entity.ts` with this code:
+Create a new file `src/stories/story.entity.ts` with this code:
 ```ts
 @EntityPartitionKey('stories')
 @EntityRowKey('id')
@@ -176,7 +176,7 @@ curl http://localhost:7071/api/stories
 curl http://localhost:7071/api/stories/0
 # should return 404 with an error
 
-curl http://localhost:7071/api/stories
+curl http://localhost:7071/api/stories \
   -X POST \
   -H "content-type: application/json" \
   -d '{ "animal": "cat", "description": "Cats have supersonic hearing" }'
