@@ -9,13 +9,16 @@ import {
   Body,
   UploadedFile,
   UnsupportedMediaTypeException,
+  BadRequestException,
 } from '@nestjs/common';
 import {
   AzureStorageFileInterceptor,
   UploadedFileMetadata,
 } from '@nestjs/azure-storage';
 import { InjectRepository, Repository } from '@nestjs/azure-database';
+import { Validator } from 'class-validator';
 import { Story } from './story.entity';
+import { StoryDto } from './story.dto';
 
 // Some cat facts, courtesy of https://catfact.ninja
 const funFacts = [
@@ -88,7 +91,7 @@ export class StoriesController {
   @UseInterceptors(AzureStorageFileInterceptor('file', fileUploadOptions))
   async createStory(
     @Body()
-    data: Partial<Story>,
+    data: StoryDto,
     @UploadedFile()
     file: UploadedFileMetadata,
   ): Promise<Story> {
@@ -98,6 +101,10 @@ export class StoriesController {
     }
     if (file) {
       story.imageUrl = file.storageUrl || null;
+    }
+    const validator = new Validator();
+    if (validator.isEmpty(story.description) && validator.isEmpty(story.imageUrl)) {
+      throw new BadRequestException('Either description or image file must be provided');
     }
     return await this.storiesRepository.create(story);
   }
