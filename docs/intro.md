@@ -1,5 +1,6 @@
 ---
 description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
+noGlobalSocialShare: true
 ---
 
 # Introduction
@@ -11,7 +12,7 @@ In this workshop, we will:
 - Create a file upload API to store images in the cloud
 - Deploy your API using Azure Serverless platform
 
-Because it's better to learn new things while having fun, we will build a social service to share fun facts and pictures about your favorite pets! 🐱🐶🐹🐰
+Because it's better to learn new things while having fun, we will build a social service API to share fun facts and pictures about your favorite pets! 🐱🐶🐹🐰
 
 ## Meet the stack
 

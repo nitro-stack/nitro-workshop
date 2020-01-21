@@ -15,8 +15,10 @@ features:
 - title: ⚡ Scale
   details: Coupling NestJS framework along with Azure Serverless platform, learn how to build apps that can scale to millions.
 footer: ' '
+noGlobalSocialShare: true
 ---
 ::: slot footer
+<social-share />
 Built with ❤️ by [@sinedied](https://twitter.com/sinedied)
 :::
 
