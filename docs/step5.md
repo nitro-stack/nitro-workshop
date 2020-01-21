@@ -13,11 +13,6 @@ If you have more time and feel like it, here are some extras points that I found
 
 Note that each of these extra parts is entirely independent, so you can skip to the one you are the most interested in or do them in any order ðŸ˜‰.
 
-<!--
-## Manage authentication
-+ delete endpoints
--->
-
 ## Add data validation
 
 It is a best practice to check and validate any data received by an API.
@@ -33,7 +28,7 @@ Whoops! A new story is created, but with our entity properties are left empty ðŸ
 
 We might want to make sure a new story has its `animal` field set and either a `description` or an image provided.
 
-Nest.js provides a built-in `ValidationPipe` that enforce validation rules for receveid data payloads, thanks to annotations provided by the [`class-validator`](https://github.com/typestack/class-validator) package.
+Nest.js provides a built-in `ValidationPipe` that enforces validation rules for received data payloads, thanks to annotations provided by the [`class-validator`](https://github.com/typestack/class-validator) package.
 
 To use it, you have to create a DTO ([Data Transfer Object](https://en.wikipedia.org/wiki/Data_transfer_object)) class on which you will declare the validations rules using annotations.
 
@@ -122,11 +117,79 @@ CORS is already enabled by default on Azure Functions but you must add your webs
 # Don't forget to change the name and URL with your own
 $ az functionapp cors add \
     --name funpets-api \
-    --resource-group catfacts \
+    --resource-group funpets \
     --allowed-origins https://yourwebsite.com
 ```
 
 If you want to allow any website to use your API, you can replace the website URL by using `*` instead. In that case, be careful as Azure Functions will auto-scale to handle the workload if millions of users starts using it, but so will your bill!
+
+## Set authorization level
+
+By default, all Azure Functions triggered by HTTP are publicly available. It's useful for a lot of scenarios, but at some point you might want to restrict who can execute your functions, in our case your API.
+
+Open the file `main/function.json`. In the functions, bindings, notice that `authLevel` is set to `anonymous`. It can be set to one of these 3 values:
+
+- `anonymous`: no API key is required (default).
+- `function`: an API key specific to this function is required. If none is defined, the `default` one will be used.
+- `admin`: an host API key is required. It will be shared among all functions from the same app.
+
+Now change `authLevel` to `function`, and redeploy your function:
+
+```sh
+# Don't forget to change the name with the one you used previously
+func azure functionapp publish funpets-api --nozip
+```
+
+Then try to invoke again your API:
+
+```sh
+curl https://<your-funpets-api>.azurewebsites.net/api/stories -i
+```
+
+You should get an HTTP status `401` error (`Unauthorized`).
+
+To call a protected function, you need to either provide the key as a query string parameter in the form `code=<api_key>` or you can provide it with the HTTP header `x-functions-key`.
+
+You can either log in to [portal.azure.com](https://portal.azure.com) and go to your function app, or follow these steps to retrieve your function API keys:
+
+```sh
+// Retrieve your resource ID
+# Don't forget to change the name with the one you used previously
+az functionapp show --resource-group funpets \
+                    --name funpets-api \
+                    --query id
+
+# Use the resource ID from the previous command
+az rest --method post --uri "<resource_id>/host/default/listKeys?api-version=2018-11-01"
+```
+
+You should see something like that:
+
+```json
+{
+  "functionKeys": {
+    "default": "functionApiKey=="
+  },
+  "masterKey": "masterApiKey==",
+  "systemKeys": {}
+}
+```
+
+Then try to invoke again your API, this time with the `x-functions-key` header set with your function API key:
+
+```sh
+curl https://<your-funpets-api>.azurewebsites.net/api/stories -i \
+  -H "x-functions-key: <your_function_api_key>"
+```
+
+This time the call should succeed!
+
+Using authorization level you can restrict who can call your API, this can be useful especially for service-to-service access restrictions.
+
+However, if you need to manage finely who can access your API with an endpoint granularity, you need to implement [authentication](https://docs.nestjs.com/techniques/authentication) in your app.
+
+<!-- ## Manage authentication
++ delete endpoints -->
 
 <!--
 ## Integrate Swagger
@@ -185,8 +248,8 @@ Keep your server running and open your browser to `http://localhost:7071/api/swa
 
 TODO: pro tip JSON, add manual docs
  -->
- 
-<!--
+
+
 ## Write tests
 
 Automated testing is a fundamental requirement to develop robust software applications. It helps catching bugs early, preventing regressions and ensuring that production releases meet your quality and performance goals.
@@ -194,4 +257,4 @@ Automated testing is a fundamental requirement to develop robust software applic
 TODO:
 
 https://docs.nestjs.com/fundamentals/testing
- -->
+
