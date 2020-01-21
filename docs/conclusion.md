@@ -36,3 +36,11 @@ Here is the list of everything we used in this workshop, as a reference:
 - [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v2?WT.mc_id=nitro-workshop-yolasors) to test and deploy your backend
 
 You should also take a look at [Hexa](https://github.com/manekinekko/hexa), a great CLI companion to create and deploy resources on Azure interactively.
+
+### Source code
+
+If you want to check your solution or start fresh at any given step, you can go [here](https://github.com/nitro-stack/nitro-workshop/releases) to get a working example source code for any step.
+
+By clicking on the tag name in the left section of the release, you can directly navigate the code on GitHub:
+
+![github release tag](./images/tag.png =120x)
