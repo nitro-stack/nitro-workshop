@@ -10,7 +10,7 @@ Now that we have everything set up for our application code and deployment, we c
 
 ## Configure Table Storage
 
-[Table Storage](https://docs.microsoft.com/azure/storage/tables/table-storage-overview?WT.mc_id=nitro-workshop-yolasors) is a simple NoSQL key/value data store that will allow you to save and retrieve data.
+[Table Storage](https://docs.microsoft.com/azure/storage/tables/table-storage-overview?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) is a simple NoSQL key/value data store that will allow you to save and retrieve data.
 
 You already created a storage account in the previous step, so you now have to generate an access token to allow our application to manipulate data in it:
 
@@ -91,10 +91,10 @@ export class Story {
 
 Now let's break down the annotations we have used:
 
-- `@EntityPartitionKey` defines the table storage [`PartitionKey`](https://docs.microsoft.com/rest/api/storageservices/understanding-the-table-service-data-model?WT.mc_id=nitro-workshop-yolasors#partitionkey-property) which can be used to for load balancing across storage nodes.
+- `@EntityPartitionKey` defines the table storage [`PartitionKey`](https://docs.microsoft.com/rest/api/storageservices/understanding-the-table-service-data-model?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p#partitionkey-property) which can be used to for load balancing across storage nodes.
 - `@EntityRowKey` is the unique identifier of an entity with a given partition.
 - The entity types annotations such as `@EntityString` represent the data type of each property.
-You can find here the complete list of [Entity Data Model types](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model-primitive-data-types?WT.mc_id=nitro-workshop-yolasors)
+You can find here the complete list of [Entity Data Model types](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model-primitive-data-types?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p)
 
 ## Inject the service
 
@@ -199,11 +199,11 @@ curl http://localhost:7071/api/stories/<RowKey_from_post_command>
 
 As you should have created to stories at this point, why not take a look a the data you have created?
 
-You can either use the standalone [Storage Explorer application](https://azure.microsoft.com/features/storage-explorer/?WT.mc_id=nitro-workshop-yolasors) for that, or go to the Azure portal and access the online version.
+You can either use the standalone [Storage Explorer application](https://azure.microsoft.com/features/storage-explorer/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) for that, or go to the Azure portal and access the online version.
 
 We only want to give a quick look, so let's use the online version:
 
-1. Open [portal.azure.com](https://portal.azure.com?WT.mc_id=nitro-workshop-yolasors)
+1. Open [portal.azure.com](https://portal.azure.com?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p)
 
 2. Use the search bar at the top and enter the name of the storage account you created, then click on it in the search results:
 ![searching your storage account](./images/storage1.png)

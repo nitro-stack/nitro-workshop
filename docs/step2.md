@@ -10,16 +10,16 @@ Before going further with our API, let's deploy it, serverless way!
 
 > But we haven't done anything meaningful yet, shouldn't we integrate all our features before deploying?
 
-Not at all! Deploying **early** and **frequently** is a factor of success in software development and a [DevOps](https://azure.microsoft.com/overview/what-is-devops/?WT.mc_id=nitro-workshop-yolasors) best practice.
+Not at all! Deploying **early** and **frequently** is a factor of success in software development and a [DevOps](https://azure.microsoft.com/overview/what-is-devops/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) best practice.
 
 ## Go serverless
 
-Why serverless? Why not deploy our app using a container or a managed service, like [Azure App Service](https://docs.microsoft.com/azure/app-service/?WT.mc_id=nitro-workshop-yolasors) for instance? There are 2 main reasons for that:
+Why serverless? Why not deploy our app using a container or a managed service, like [Azure App Service](https://docs.microsoft.com/azure/app-service/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) for instance? There are 2 main reasons for that:
 
 - You only pay for what you use, not for the resource allocation (and it's [dead cheap](https://dev.to/azure/is-serverless-really-as-cheap-as-everyone-claims-4i9n))
 - It scales automatically without any additional setup
 
-First, let's update our NestJS app into a serverless app so we can deploy it to [Azure Functions](https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=nitro-workshop-yolasors).
+First, let's update our NestJS app into a serverless app so we can deploy it to [Azure Functions](https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p).
 
 ::: info What's Azure Functions?
 It's a solution for running small pieces of code, or *functions*, in the cloud. You just write the code for the problem at hand in your preferred language, without worrying about the infrastructure or enclosing app to run it.
@@ -43,7 +43,7 @@ If you take a closer look, here is what has been added:
 - Some config files in the project's root, we do not need to care about them for now.
 - A new `start:azure` NPM script in your `package.json` file, allowing to run your API locally but with the Azure Functions simulator this time.
 
-To be able to use the command `npm run start:azure`, you must have installed the [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v2?WT.mc_id=nitro-workshop-yolasors) with the [prerequisites](/env). It will provide the `func` CLI that you can use to test your functions and deploy them to Azure.
+To be able to use the command `npm run start:azure`, you must have installed the [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v2?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) with the [prerequisites](/env). It will provide the `func` CLI that you can use to test your functions and deploy them to Azure.
 
 Now let's test our API running on a function:
 
@@ -92,11 +92,11 @@ az functionapp create --name funpets-api \
                       --storage-account funpets
 ```
 
-The first thing we created is a [**resource group**](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview?WT.mc_id=nitro-workshop-yolasors#resource-groups), a collection of Azure resources. It's typically used to group related resources for an application, by environment (production vs testing for example) or anything as needed.
+The first thing we created is a [**resource group**](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p#resource-groups), a collection of Azure resources. It's typically used to group related resources for an application, by environment (production vs testing for example) or anything as needed.
 
-Then we added a [**storage account**](https://docs.microsoft.com/azure/storage/common/storage-introduction?WT.mc_id=nitro-workshop-yolasors#azure-storage-services) that will be used to store our app data, file and even application code. 
+Then we added a [**storage account**](https://docs.microsoft.com/azure/storage/common/storage-introduction?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p#azure-storage-services) that will be used to store our app data, file and even application code. 
 
-Finally, we added a [**function app**](https://docs.microsoft.com/azure/azure-functions/functions-overview?WT.mc_id=nitro-workshop-yolasors) on which you will deploy your API.
+Finally, we added a [**function app**](https://docs.microsoft.com/azure/azure-functions/functions-overview?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) on which you will deploy your API.
 
 ## Deploy your app
 
@@ -142,7 +142,7 @@ curl https://<your-funpets-api>.azurewebsites.net/api/stories/random
 Server deployment, done ✔️.
 
 ::: tip Pro tip #1
-When working on a production app, you should not deploy directly from your local source code, but rather connect your source code repository to a continuous integration and deployment system (CI/CD). You can either do that using [Azure DevOps](https://docs.microsoft.com/azure/devops-project/azure-devops-project-github?WT.mc_id=nitro-workshop-yolasors) or directly connect your repository for deployment using this command:
+When working on a production app, you should not deploy directly from your local source code, but rather connect your source code repository to a continuous integration and deployment system (CI/CD). You can either do that using [Azure DevOps](https://docs.microsoft.com/azure/devops-project/azure-devops-project-github?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) or directly connect your repository for deployment using this command:
 ```sh
 az functionapp deployment source config --name <your-funpets-api> \
                                         --resource-group funpets \

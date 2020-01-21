@@ -31,16 +31,16 @@ Under the hood, NestJS makes uses of [Express](https://expressjs.com) HTTP serve
 NestJS leverages similar concepts, features, architecture and tools as [Angular](https://angular.io) framework, but tailored for Node.js backend development.
 :::
 
-### Azure [(azure.microsoft.com/overview)](https://azure.microsoft.com/overview/what-is-azure/?WT.mc_id=nitro-workshop-yolasors)
+### Azure [(azure.microsoft.com/overview)](https://azure.microsoft.com/overview/what-is-azure/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p)
 
 ![azure logo](./images/azure.svg =400x)
 
-Azure is Microsoft's cloud computing offer for building, testing, deploying and managing applications and services. The platform provides [IaaS](https://azure.microsoft.com/overview/what-is-iaas/?WT.mc_id=nitro-workshop-yolasors), [PaaS](https://azure.microsoft.com/overview/what-is-paas/?WT.mc_id=nitro-workshop-yolasors) and [SaaS](https://azure.microsoft.com/overview/what-is-saas/?WT.mc_id=nitro-workshop-yolasors) solutions with an ever extending range of services.
+Azure is Microsoft's cloud computing offer for building, testing, deploying and managing applications and services. The platform provides [IaaS](https://azure.microsoft.com/overview/what-is-iaas/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p), [PaaS](https://azure.microsoft.com/overview/what-is-paas/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) and [SaaS](https://azure.microsoft.com/overview/what-is-saas/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) solutions with an ever extending range of services.
 
-For this workshop, we will use [serverless services](https://azure.microsoft.com/solutions/serverless/?WT.mc_id=nitro-workshop-yolasors) to store data and host our application without having to manage any of the underlying infrastructure. In particular:
-- [Azure Functions](https://azure.microsoft.com/services/functions/?WT.mc_id=nitro-workshop-yolasors) to deploy application code
-- [Azure Table Storage](https://azure.microsoft.com/services/storage/tables/?WT.mc_id=nitro-workshop-yolasors), a simple NoSQL database to store our entities
-- [Azure Blob Storage](https://azure.microsoft.com/services/storage/blobs/?WT.mc_id=nitro-workshop-yolasors) to store image files
+For this workshop, we will use [serverless services](https://azure.microsoft.com/solutions/serverless/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to store data and host our application without having to manage any of the underlying infrastructure. In particular:
+- [Azure Functions](https://azure.microsoft.com/services/functions/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to deploy application code
+- [Azure Table Storage](https://azure.microsoft.com/services/storage/tables/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p), a simple NoSQL database to store our entities
+- [Azure Blob Storage](https://azure.microsoft.com/services/storage/blobs/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to store image files
 
 ### Nitro [(nitro.ooo)](https://nitro.ooo)
 
