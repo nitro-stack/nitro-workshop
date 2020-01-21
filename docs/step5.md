@@ -123,7 +123,7 @@ $ az functionapp cors add \
 
 If you want to allow any website to use your API, you can replace the website URL by using `*` instead. In that case, be careful as Azure Functions will auto-scale to handle the workload if millions of users starts using it, but so will your bill!
 
-## Set authorization level
+## Enable authorization
 
 By default, all Azure Functions triggered by HTTP are publicly available. It's useful for a lot of scenarios, but at some point you might want to restrict who can execute your functions, in our case your API.
 
@@ -150,7 +150,7 @@ You should get an HTTP status `401` error (`Unauthorized`).
 
 To call a protected function, you need to either provide the key as a query string parameter in the form `code=<api_key>` or you can provide it with the HTTP header `x-functions-key`.
 
-You can either log in to [portal.azure.com](https://portal.azure.com) and go to your function app, or follow these steps to retrieve your function API keys:
+You can either log in to [portal.azure.com](https://portal.azure.com?WT.mc_id=nitro-workshop-yolasors) and go to your function app, or follow these steps to retrieve your function API keys:
 
 ```sh
 // Retrieve your resource ID
@@ -252,9 +252,136 @@ TODO: pro tip JSON, add manual docs
 
 ## Write tests
 
-Automated testing is a fundamental requirement to develop robust software applications. It helps catching bugs early, preventing regressions and ensuring that production releases meet your quality and performance goals.
+Your API might currently look fine, but how can you ensure it has as little bugs as possible, and that you won't introduce regression in the future?
 
-TODO:
+Writing automated is not the most fun part of development, but it's a fundamental requirement to develop robust software applications. It helps to catch bugs early, preventing regressions and ensuring that production releases meet your quality and performance goals.
 
-https://docs.nestjs.com/fundamentals/testing
+Good news is NestJS has you covered to make your testing experience as smooth as possible.
+When you bootstrapped the project using the `nest` CLI, [Jest](https://jestjs.io) and [SuperTest](https://github.com/visionmedia/supertest) frameworks have been setup for you.
 
+Each time you run the `nest generate` command, unit test files are also created for you with the extension `.spec.ts`.
+
+There are 5 NPM scripts dedicated to testing in your `package.json` file:
+- `npm test`: runs unit tests once.
+- `npm run test:watch` runs unit tests in watch mode, it will automatically re-run tests as you make modifications to the files. It is suited perfectly for [TDD](https://en.wikipedia.org/wiki/Test-driven_development).
+- `npm run test:cov` runs unit tests and generate coverage report, so you can know which code paths are covered by your tests.
+- `npm run test:debug`: runs unit tests with Node.js debugger enabled, so you can add breakpoints in your code editor and debug your tests more easily.
+- `npm run test:e2e`: runs your end-to-end tests.
+
+Now run the `npm test` command. Oops, it seems that `src/stories/stories.controller.spec.ts` test if failing 😱!
+
+### Add module and providers mocks
+
+If you look at the stack trace, you can see that the reason is that `AzureTableStorageModule` and `AzureStorageModule` services cannot be resolved. It's expected: when running unit tests, you want to isolate the code you are testing as much as possible, and for that you can see that each test file provides its own module definition:
+
+```ts
+beforeEach(async () => {
+  const module: TestingModule = await Test.createTestingModule({
+    controllers: [StoriesController],
+  }).compile();
+
+  controller = module.get<StoriesController>(StoriesController);
+});
+```
+
+The module created with `Test.createTestingModule` does not import `AzureTableStorageModule` and `AzureStorageModule`, so that's why their providers cannot be resolved. Instead of importing them right away to fix the issue, we should write [**mocks**](https://en.wikipedia.org/wiki/Mock_object) for the providers we use instead.
+
+#### Mock `@nestjs/azure-storage`
+
+Let's start with mocking what we use in `@nestjs/azure-storage` module, using `jest.mock(<module>)` helper function. Add this code just after the imports:
+
+```ts
+jest.mock('@nestjs/azure-storage', () => ({
+  // Use Jest automatic mock generation
+  ...jest.genMockFromModule('@nestjs/azure-storage'),
+
+  // Mock interceptor
+  AzureStorageFileInterceptor: () => ({
+    intercept: jest.fn((context, next) => next.handle())
+  })
+}));
+```
+
+For simple modules, using `jest.mock(<module>)` would be enough to generate mocks automatically according to the module interface.
+
+But in our case, `AzureStorageFileInterceptor` needs to be mocked manually as it is a bit trickier: it must returns an object with a method `intercept(context, next)` that needs to call `next.handle()` to not break the chain of interceptors calls.
+
+So we provide our own version of the `@nestjs/azure-storage` module mock, using `jest.genMockFromModule(<module>)` helper to automatically generates mocks for everything except `AzureStorageFileInterceptor`.
+
+For `AzureStorageFileInterceptor` we manually reproduce a minimal implementation. Using `jest.fn()` method here creates a [mock function](https://jestjs.io/docs/en/mock-function-api). Thanks to that, we can later change its implementation in a specific test if needed.
+
+Then add `AzureStorageService` to the testting module `providers` list:
+
+```ts
+beforeEach(async () => {
+  const module: TestingModule = await Test.createTestingModule({
+    controllers: [StoriesController],
+    providers: [AzureStorageService]
+  }).compile();
+
+  controller = module.get<StoriesController>(StoriesController);
+});
+```
+
+And complete the missing import:
+
+```ts
+import { AzureStorageService } from '@nestjs/azure-storage';
+```
+
+#### Mock `@nestjs/azure-database`
+
+We also need to mock the `storiesRepository` service injected in our controller using `@InjectRepository(Story)`, but how to do that?
+
+This time we do not need to mock the entire module, but only this specific service.
+We can still use Jest automatic mock generation:
+
+```ts
+// Add this code after the imports
+const repositoryMock = jest.genMockFromModule<any>('@nestjs/azure-database')
+  .AzureTableStorageRepository;
+```
+
+Its injection token is generated dynamically, so we need to add a [custom provider](https://docs.nestjs.com/fundamentals/custom-providers#custom-providers-1) to our testing module to reproduce the same behavior:
+
+```ts
+beforeEach(async () => {
+  const module: TestingModule = await Test.createTestingModule({
+    controllers: [StoriesController],
+      providers: [
+        AzureStorageService,
+        { provide: getRepositoryToken(Story), useValue: repositoryMock },
+      ],
+  }).compile();
+
+  controller = module.get<StoriesController>(StoriesController);
+});
+```
+
+::: tip Pro tip
+We had to look at the implementation `@InjectRepository()` annotation to find out that it uses the method `getRepositoryToken()` internally. Unfortunately, that's something you have to do sometimes to be able to mock modules properly.
+:::
+
+Don't forget to add missing imports:
+
+```ts
+import { getRepositoryToken } from '@nestjs/azure-database';
+import { Story } from './story.entity';
+```
+
+Now run `npm test` again, this time the tests should succeed!
+
+### Complete test suite
+
+Hold on, now that we have solved the mock issue, it's time to write more tests 😃!
+
+Try to add:
+- Unit tests for your controller in `src/stories/stories.controller.ts`.
+- An end-to-end for of your endpoints in `tests/app.e2e-spec.ts`.
+
+Take also a look a the report generated by `npm run test:cov` to see your test coverage.
+
+If you are not familiar with Jest you might want to take a look at the [documentation](https://jestjs.io/docs/en/using-matchers).
+For end-to-end tests, HTTP assertions are made using the [SuperTest library](https://github.com/visionmedia/supertest).
+
+You can also find examples and more information in the [NestJS documentation](https://docs.nestjs.com/fundamentals/testing#unit-testing).
