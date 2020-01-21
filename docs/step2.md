@@ -127,7 +127,7 @@ func azure functionapp publish funpets-api --nozip
 After publishing, you should see in the console the URL you can use to invoke the function, like this:
 
 ```
-Functions in catfacts-api:
+Functions in funpets-api:
     main - [httpTrigger]
         Invoke url: https://<your-funpets-api>.azurewebsites.net/api/{*segments}
 ```
