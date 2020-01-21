@@ -33,6 +33,11 @@ Now edit the file `local.settings.json`, and add these properties to the `Values
 "AZURE_STORAGE_SAS_KEY": "<your SAS key>"
 ```
 
+Remove this line as it's not needed:
+```json
+"AzureWebJobsStorage": "",
+```
+
 These values will be exposed to our app as **environment variables** by the Functions runtime, to allow access to your Azure storage.
 
 ## Integrate with NestJS
@@ -218,8 +223,12 @@ npm run build
 
 # Create an archive from your local files and publish it
 # Don't forget to change the name with the one you used previously
-func azure functionapp publish funpets-api
+func azure functionapp publish funpets-api \
+  --nozip \
+  --publish-local-settings
 ```
+
+Notice that this time we added the `--publish-local-settings` option to update the 
 
 Then invoke one of the newer API to check that deployment went fine:
 

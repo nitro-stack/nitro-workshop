@@ -136,7 +136,7 @@ npm run build
 
 # Create an archive from your local files and publish it
 # Don't forget to change the name with the one you used previously
-func azure functionapp publish funpets-api
+func azure functionapp publish funpets-api --nozip
 ```
 
 Then run again the previous `curl` command against your deployed API URL to check that everything works fine:
