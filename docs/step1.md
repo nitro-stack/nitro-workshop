@@ -80,7 +80,7 @@ import { Controller, Get } from '@nestjs/common';
 
 Now let's break down what we just did:
 
-- The `@Controller()` annotation specifies that this class will handle incoming **requests** and return **responses** to the client. The optional argument `'facts'` used here will be used as the base **route** prefix for all handlers defined within that class.
+- The `@Controller()` annotation specifies that this class will handle incoming **requests** and return **responses** to the client. The optional argument `'random'` used here will be used as the base **route** prefix for all handlers defined within that class.
 
 - The `@Get()` annotation defines a new HTTP GET request handler, creating a new endpoint. The optional argument `'random'` will be used as a path for this endpoint.
 
