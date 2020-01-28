@@ -75,6 +75,9 @@ Now that your API is ready to run on Functions, let's deploy it to the real thin
 First, we have to create some Azure resources. For that we will use the Azure CLI commands:
 
 ```sh
+# Login to Azure, should only be needed once
+az login
+
 # Create a new resource group
 az group create --name funpets --location northeurope
 
@@ -106,10 +109,12 @@ To make deployment easier and faster for this workshop we will add a bit of spec
 # Don't forget to change the name with your own
 az functionapp config appsettings set --name funpets-api \
                                       --resource-group funpets \
-                                      --settings 'SCM_DO_BUILD_DURING_DEPLOYMENT=true'
+                                      --settings "SCM_DO_BUILD_DURING_DEPLOYMENT=true"
 ```
 
-Then edit the `.funcignore` file and add a line with `node_modules` at the bottom.
+::: warning Important
+Edit the `.funcignore` file and add a line with `node_modules` at the bottom.
+:::
 
 The `SCM_DO_BUILD_DURING_DEPLOYMENT=true` setting will enable a "build" step for zip deployments, which for Node.js apps translates to `npm install` being called on the server directly.
 This way you don't have to package the required `node_modules` with your app, reducing upload times a lot.

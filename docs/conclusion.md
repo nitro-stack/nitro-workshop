@@ -38,7 +38,7 @@ Here is the list of everything we used in this workshop, as a reference:
 - [NestJS](https://nestjs.com) with [@nestjs/azure-func-http](https://github.com/nestjs/azure-func-http) for the backend
 - [Azure Functions](https://azure.microsoft.com/services/functions/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) for API deployment
 - [Azure Storage](https://docs.microsoft.com/azure/storage/blobs/storage-blob-static-website?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to host the website
-- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to manage resources
+- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest&WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to manage resources
 - [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v2?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to test and deploy your backend
 
 You should also take a look at [Hexa](https://github.com/manekinekko/hexa), a great CLI companion to create and deploy resources on Azure interactively.
