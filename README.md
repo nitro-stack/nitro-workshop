@@ -26,4 +26,4 @@ Get started with these awesome tools, and take a look a the [Nitro cats demo app
 - [Hexa](https://hexa.run): provision resources and deploy your app and data using an interactive CLI
 - [@azure/ng-deploy](https://github.com/Azure/ng-deploy-azure): deploy your Angular apps directly from Angular CLI
 
-Learn more at [nitro.ooo](https://nitr.ooo)
+Learn more at [nitr.ooo](https://nitr.ooo)

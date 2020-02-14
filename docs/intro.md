@@ -1,6 +1,5 @@
 ---
 description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
-noGlobalSocialShare: true
 ---
 
 # Introduction
@@ -42,7 +41,7 @@ For this workshop, we will use [serverless services](https://azure.microsoft.com
 - [Azure Table Storage](https://azure.microsoft.com/services/storage/tables/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p), a simple NoSQL database to store our entities
 - [Azure Blob Storage](https://azure.microsoft.com/services/storage/blobs/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to store image files
 
-### Nitro [(nitro.ooo)](https://nitro.ooo)
+### Nitro [(nitr.ooo)](https://nitr.ooo)
 
 ![nestjs logo](nitro.png =100x)
 
