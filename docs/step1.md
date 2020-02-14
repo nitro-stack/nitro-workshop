@@ -1,7 +1,6 @@
 ---
 description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
 permalink: step1
-noGlobalSocialShare: true
 ---
 
 # 1. Bootstrap project

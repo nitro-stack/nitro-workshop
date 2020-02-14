@@ -36,6 +36,7 @@ module.exports = {
   },
   plugins: [
     ['social-share', {
+      noGlobalSocialShare: true,
       networks: ['twitter', 'facebook', 'reddit', 'linkedin', 'whatsapp'],
       twitterUser: 'sinedied',
       fallbackImage: 'https://nitro-stack.github.io/nitro-workshop/nitro.png',
