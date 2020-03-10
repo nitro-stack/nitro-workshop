@@ -96,7 +96,7 @@ az functionapp create --name funpets-api \
 
 The first thing we created is a [**resource group**](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p#resource-groups), a collection of Azure resources. It's typically used to group related resources for an application, by environment (production vs testing for example) or anything as needed.
 
-Then we added a [**storage account**](https://docs.microsoft.com/azure/storage/common/storage-introduction?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p#azure-storage-services) that will be used to store our app data, file and even application code. 
+Then we added a [**storage account**](https://docs.microsoft.com/azure/storage/common/storage-introduction?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p#azure-storage-services) that will be used to store our app data, files and even application code. 
 
 Finally, we added a [**function app**](https://docs.microsoft.com/azure/azure-functions/functions-overview?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) on which you will deploy your API.
 

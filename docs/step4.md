@@ -120,7 +120,7 @@ Some hints to get started:
 - You can get the uploaded file name using `file.originalname`.
 - Explore Node.js [`path` module](https://nodejs.org/api/path.html) to get extract extension from a file name.
 
-Don't forget to test your solution with various scenario using `curl`, to make sure your API accepts/rejects files properly!
+Don't forget to test your solution with various scenarios using `curl`, to make sure your API accepts/rejects files properly!
 
 ::: tip Tip
 you can use `mkfile <size[k|m]> <filename>` to generate dummy files with a given size (for Windows users: `fsutil file createnew <filename> <size_in_bytes>`).

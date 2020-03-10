@@ -121,7 +121,7 @@ $ az functionapp cors add \
     --allowed-origins https://yourwebsite.com
 ```
 
-If you want to allow any website to use your API, you can replace the website URL by using `*` instead. In that case, be careful as Azure Functions will auto-scale to handle the workload if millions of users starts using it, but so will your bill!
+If you want to allow any website to use your API, you can replace the website URL by using `*` instead. In that case, be careful as Azure Functions will auto-scale to handle the workload if millions of users start using it, but so will your bill!
 
 ## Enable authorization
 
@@ -131,7 +131,7 @@ Open the file `main/function.json`. In the functions, bindings, notice that `aut
 
 - `anonymous`: no API key is required (default).
 - `function`: an API key specific to this function is required. If none is defined, the `default` one will be used.
-- `admin`: an host API key is required. It will be shared among all functions from the same app.
+- `admin`: a host API key is required. It will be shared among all functions from the same app.
 
 Now change `authLevel` to `function`, and redeploy your function:
 
@@ -256,8 +256,8 @@ Your API might currently look fine, but how can you ensure it has as little bugs
 
 Writing automated is not the most fun part of development, but it's a fundamental requirement to develop robust software applications. It helps to catch bugs early, preventing regressions and ensuring that production releases meet your quality and performance goals.
 
-Good news is NestJS has you covered to make your testing experience as smooth as possible.
-When you bootstrapped the project using the `nest` CLI, [Jest](https://jestjs.io) and [SuperTest](https://github.com/visionmedia/supertest) frameworks have been setup for you.
+The good news is NestJS has you covered to make your testing experience as smooth as possible.
+When you bootstrapped the project using the `nest` CLI, [Jest](https://jestjs.io) and [SuperTest](https://github.com/visionmedia/supertest) frameworks have been set up for you.
 
 Each time you run the `nest generate` command, unit test files are also created for you with the extension `.spec.ts`.
 
