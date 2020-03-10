@@ -2,7 +2,16 @@ require('dotenv').config();
 // const pages = require('globby').sync(['*.md', '!readme*'], { cwd: 'docs' });
 
 module.exports = {
-  title: 'Nitro workshop',
+  title: 'Nitro Workshop',
+  seo: {
+    description: 'Learn how to make Node.js serverless REST APIs with NestJS and Azure',
+    author: {
+      name: 'Yohan Lasorsa',
+      twitter: '@sinedied'
+    },
+    url: 'https://nitro-stack.github.io/nitro-workshop',
+    image: '/nitro.png',
+  },
   head: [
     ['link', { rel: 'icon', href: `/nitro.png` }],
     // ['link', { rel: 'manifest', href: '/manifest.json' }],
@@ -61,18 +70,17 @@ module.exports = {
     ['@vuepress/google-analytics', {
       'ga': process.env.GA
     }],
-    ['@limdongjin/vuepress-plugin-simple-seo', {
-      default_image: '/nitro.png',
-      root_url: 'https://nitro-stack.github.io/nitro-workshop',
-      default_site_name: 'Nitro Workshop',
-      default_twitter_creator: '@sinedied',
-      default_twitter_site: '@sinedied',
-      default_og_type: 'website'
-    }],
     ['@vuepress/medium-zoom', {
       options: {
         background: '#000'
       }
+    }],
+    ['seo', {
+      description: $page => $page.frontmatter.description || ($site.seo && $site.seo.description),
+      author: (_, $site) => $site.seo && $site.seo.author,
+      url: (_, $site, path) => ($site.seo && $site.seo.url || '') + path,
+      image: ($page, $site) => $page.frontmatter.image && (($site.seo && $site.seo.url || '') + $page.frontmatter.image) ||
+        ($site.seo && $site.seo.image && ($site.seo.url || '') + $site.seo.image),
     }]
   ],
   markdown: {
