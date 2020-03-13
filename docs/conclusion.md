@@ -35,7 +35,9 @@ Here is the list of everything we used in this workshop, as a reference:
 - [Node.js](https://nodejs.org) as the base platform for everything
 <!-- - [Angular](https://angular.io) with [@azure/ng-deploy](https://github.com/Azure/ng-deploy-azure) for the frontend -->
 - [NestJS](https://nestjs.com) with [@nestjs/azure-func-http](https://github.com/nestjs/azure-func-http) for the backend
+- [TypeORM](https://typeorm.io) with [@nestjs/typeorm](https://github.com/nestjs/typeorm) for mapping entities with the database
 - [Azure Functions](https://azure.microsoft.com/services/functions/?WT.mc_id=nitro-workshop-yolasors) for API deployment
+- [Azure Cosmos DB](https://azure.microsoft.com/services/cosmos-db/?WT.mc_id=nitro-workshop-yolasors) for the database
 - [Azure Storage](https://docs.microsoft.com/azure/storage/blobs/storage-blob-static-website?WT.mc_id=nitro-workshop-yolasors) to host the website
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest&WT.mc_id=nitro-workshop-yolasors) to manage resources
 - [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v2?WT.mc_id=nitro-workshop-yolasors) to test and deploy your backend
