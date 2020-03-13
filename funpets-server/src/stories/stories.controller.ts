@@ -1,4 +1,8 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, NotFoundException, Post, Body } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { MongoRepository } from 'typeorm';
+import { ObjectID } from 'mongodb';
+import { Story } from './story.entity';
 
 // Some cat facts, courtesy of https://catfact.ninja
 const funFacts = [
@@ -17,10 +21,37 @@ const funFacts = [
 
 @Controller('stories')
 export class StoriesController {
+  constructor(
+    @InjectRepository(Story)
+    private readonly storiesRepository: MongoRepository<Story>,
+  ) {}
 
   @Get('random')
   getRandomStory(): string {
     return funFacts[Math.floor(Math.random() * funFacts.length)];
   }
 
+  @Get(':id')
+  async getStory(@Param('id') id): Promise<Story> {
+    const story = ObjectID.isValid(id) && await this.storiesRepository.findOne(id);
+    if (!story) {
+      // Entity not found
+      throw new NotFoundException();
+    }
+    return story;
+  }
+
+  @Get()
+  async getStories(): Promise<Story[]> {
+    return await this.storiesRepository.find();
+  }
+
+  @Post()
+  async createStory(@Body() data: Partial<Story>): Promise<Story> {
+    const story = new Story(data);
+    if (!story.createdAt) {
+      story.createdAt = new Date();
+    }
+    return await this.storiesRepository.save(story);
+  }
 }

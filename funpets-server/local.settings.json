@@ -1,6 +1,8 @@
 {
   "IsEncrypted": false,
   "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "node"
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "MONGODB_CONNECTION_STRING": "<your mongodb connection string>",
+    "MONGODB_DATABASE": "funpets-db"
   }
 }
