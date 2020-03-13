@@ -45,7 +45,11 @@ module.exports = {
   },
   plugins: [
     ['tabs', {
-      useUrlFragment: false
+      tabsAttributes: {
+        options: {
+            useUrlFragment: false
+        }
+      }
     }],
     ['social-share', {
       noGlobalSocialShare: true,
