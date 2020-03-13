@@ -32,7 +32,7 @@ These values will be exposed to our app as **environment variables** by the Func
 
 ## Configure Azure Storage module
 
-We will use [Azure Blob Storage](https://azure.microsoft.com/services/storage/blobs/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to store pets images in the cloud. It can be used to store any kind of file, and is also capable of [hosting static websites](https://docs.microsoft.com/azure/storage/blobs/storage-blob-static-website?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p).
+We will use [Azure Blob Storage](https://azure.microsoft.com/services/storage/blobs/?WT.mc_id=nitro-workshop-yolasors) to store pets images in the cloud. It can be used to store any kind of file, and is also capable of [hosting static websites](https://docs.microsoft.com/azure/storage/blobs/storage-blob-static-website?WT.mc_id=nitro-workshop-yolasors).
 
 As you already created and set up your storage account access, you only need to integrate the `@nestjs/azure-storage` package with this command:
 

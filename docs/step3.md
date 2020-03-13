@@ -9,7 +9,7 @@ Now that we have everything set up for our application code and deployment, we c
 
 ## Configure Cosmos DB
 
-[Cosmos DB](https://azure.microsoft.com/fr-fr/services/cosmos-db/) is a managed distributed NoSQL database that will allow you to save and retrieve data. It supports multiple data models and many well known database APIs, including [MongoDB](https://www.mongodb.com/) that we will use for our application.
+[Cosmos DB](https://azure.microsoft.com/services/cosmos-db/?WT.mc_id=nitro-workshop-yolasors) is a managed distributed NoSQL database that will allow you to save and retrieve data. It supports multiple data models and many well known database APIs, including [MongoDB](https://www.mongodb.com/) that we will use for our application.
 
 ![CosmosDB multi-model and different APIs illustration](./images/cosmos-db.png)
 
@@ -20,9 +20,9 @@ If you are attending this workshop with an instructor or if you are short on tim
 ::::: tabs
 
 :::: tab "Use trial account"
-The quickest way to experiment with Cosmos DB is to use the [Try CosmosDB for free](https://azure.microsoft.com/try/cosmosdb/) website, to get instant access to a pre-provisionned free account for 30 days (renewable).
+The quickest way to experiment with Cosmos DB is to use the [Try CosmosDB for free](https://azure.microsoft.com/try/cosmosdb/?WT.mc_id=nitro-workshop-yolasors) website, to get instant access to a pre-provisionned free account for 30 days (renewable).
 
-1. Open the [Try CosmosDB for free](https://azure.microsoft.com/try/cosmosdb/) website, then click on the MongoDB **Create** option:
+1. Open the [Try CosmosDB for free](https://azure.microsoft.com/try/cosmosdb/?WT.mc_id=nitro-workshop-yolasors) website, then click on the MongoDB **Create** option:
 
     ![mongoDB database creation option](./images/try1.png)
 
@@ -40,8 +40,8 @@ The quickest way to experiment with Cosmos DB is to use the [Try CosmosDB for fr
 
     ::: tip Pro tip
     There are two things worth mentioning here:
-    - We choose to share a provisioned throughput of [Request Units](https://docs.microsoft.com/en-us/azure/cosmos-db/request-units) among all our collections within our database, using the checkbox `Provision database throughput`. This greatly helps to reduce costs when using a paid account.
-    - We need to define a shard key (also called [partition key](https://docs.microsoft.com/en-us/azure/cosmos-db/partitioning-overview#choose-partitionkey)) for the collection, to ensure proper [partitioning](https://docs.microsoft.com/en-us/azure/cosmos-db/partitioning-overview). We use the default auto-generated `_id` property by MongoDB for that.
+    - We choose to share a provisioned throughput of [Request Units](https://docs.microsoft.com/azure/cosmos-db/request-units?WT.mc_id=nitro-workshop-yolasors) among all our collections within our database, using the checkbox `Provision database throughput`. This greatly helps to reduce costs when using a paid account.
+    - We need to define a shard key (also called [partition key](https://docs.microsoft.com/azure/cosmos-db/partitioning-overview?WT.mc_id=nitro-workshop-yolasors#choose-partitionkey)) for the collection, to ensure proper [partitioning](https://docs.microsoft.com/azure/cosmos-db/partitioning-overview?WT.mc_id=nitro-workshop-yolasors). We use the default auto-generated `_id` property by MongoDB for that.
     :::
 
 5. Finally, go to the `Connection strings` tab and click on the button next to your primary connection string to copy it:
@@ -52,7 +52,7 @@ The quickest way to experiment with Cosmos DB is to use the [Try CosmosDB for fr
 :::: tab "Create new account"
 
 ::: info Note
-There is now a Free Tier for Cosmos DB that includes 5 GB storage and up to 25 collections, with production-grade performance and no expiration period (it's *free forever*!). If you want to use it, you need to create your Cosmos DB account using the [Azure Portal](https://ms.portal.azure.com/#create/Microsoft.DocumentDB) instead of running the CLI command below (choose **MongoDB** for the API).
+There is now a Free Tier for Cosmos DB that includes 5 GB storage and up to 25 collections, with production-grade performance and no expiration period (it's *free forever*!). If you want to use it, you need to create your Cosmos DB account using the [Azure Portal](https://ms.portal.azure.com/?WT.mc_id=nitro-workshop-yolasors#create/Microsoft.DocumentDB) instead of running the CLI command below (choose **MongoDB** for the API).
 :::
 
 We will use the Azure CLI command to create our new Cosmos DB account:
@@ -80,7 +80,7 @@ az cosmosdb mongodb database create --account-name <your-funpets-cosmos> \
 ```
 
 ::: tip Pro tip
-We choose to share a provisioned throughput of [Request Units](https://docs.microsoft.com/en-us/azure/cosmos-db/request-units) among all our collections within our database, using the `--throughput` option. This greatly helps to reduce costs.
+We choose to share a provisioned throughput of [Request Units](https://docs.microsoft.com/azure/cosmos-db/request-units?WT.mc_id=nitro-workshop-yolasors) among all our collections within our database, using the `--throughput` option. This greatly helps to reduce costs.
 :::
 
 2. Create the `stories` collection, where we will put our data.
@@ -95,7 +95,7 @@ az cosmosdb mongodb collection create --account-name <your-funpets-cosmos> \
 ```
 
 ::: tip Pro tip
-We need to define a shard key (also called [partition key](https://docs.microsoft.com/en-us/azure/cosmos-db/partitioning-overview#choose-partitionkey)) for the collection, to ensure proper [partitioning](https://docs.microsoft.com/en-us/azure/cosmos-db/partitioning-overview). We use the default auto-generated `_id` property by MongoDB for that.
+We need to define a shard key (also called [partition key](https://docs.microsoft.com/azure/cosmos-db/partitioning-overview?WT.mc_id=nitro-workshop-yolasors#choose-partitionkey)) for the collection, to ensure proper [partitioning](https://docs.microsoft.com/azure/cosmos-db/partitioning-overview?WT.mc_id=nitro-workshop-yolasors). We use the default auto-generated `_id` property by MongoDB for that.
 :::
 
 3. Finally, we retrieve the connection string to connect our application to the database.
@@ -200,7 +200,7 @@ For more complex domain models you can define subdocuments using simple type ref
 
 ## Inject the repository
 
-TypeORM supports the [repository design pattern](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design#the-repository-pattern), and `@nestjs/typeorm` package provides you an easy way to declare repositories you can inject for each of your entities.
+TypeORM supports the [repository design pattern](https://docs.microsoft.com/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design?WT.mc_id=nitro-workshop-yolasors#the-repository-pattern), and `@nestjs/typeorm` package provides you an easy way to declare repositories you can inject for each of your entities.
 
 Open the file `src/app.module.ts` again and add this to the module imports:
 ```ts
@@ -322,14 +322,14 @@ curl http://localhost:7071/api/stories/<id_from_post_command>
 
 As you should have created to stories at this point, why not take a look a the data you have created?
 
-You can either use the standalone [Storage Explorer application](https://azure.microsoft.com/features/storage-explorer/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) for that, or go to the Azure portal and access the online version.
+You can either use the standalone [Storage Explorer application](https://azure.microsoft.com/features/storage-explorer/?WT.mc_id=nitro-workshop-yolasors) for that, or go to the Azure portal and access the online version.
 
 We only want to give a quick look, so let's use the online version:
 
 ::::: tabs
 
 :::: tab "With a trial Cosmos DB account"
-1. Open the [Try CosmosDB for free](https://azure.microsoft.com/try/cosmosdb/) website again, and click on the button **Open in Azure Portal**:
+1. Open the [Try CosmosDB for free](https://azure.microsoft.com/try/cosmosdb/?WT.mc_id=nitro-workshop-yolasors) website again, and click on the button **Open in Azure Portal**:
 
     ![open in Azure Portal button](./images/try2.png)
 
@@ -339,7 +339,7 @@ We only want to give a quick look, so let's use the online version:
 ::::
   
 :::: tab "With your own Cosmos DB account"
-1. Open [portal.azure.com](https://portal.azure.com?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p)
+1. Open [portal.azure.com](https://portal.azure.com?WT.mc_id=nitro-workshop-yolasors)
 
 2. Use the search bar at the top and enter the name of the Cosmos DB account you created, then click on it in the search results:
 

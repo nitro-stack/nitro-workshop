@@ -149,7 +149,7 @@ You should get an HTTP status `401` error (`Unauthorized`).
 
 To call a protected function, you need to either provide the key as a query string parameter in the form `code=<api_key>` or you can provide it with the HTTP header `x-functions-key`.
 
-You can either log in to [portal.azure.com](https://portal.azure.com?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) and go to your function app, or follow these steps to retrieve your function API keys:
+You can either log in to [portal.azure.com](https://portal.azure.com?WT.mc_id=nitro-workshop-yolasors) and go to your function app, or follow these steps to retrieve your function API keys:
 
 ```sh
 // Retrieve your resource ID

@@ -10,7 +10,7 @@ Our API is starting to look great now that we can add new stories. But it would 
 
 ## Configure Azure Storage module
 
-We will use [Azure Blob Storage](https://azure.microsoft.com/services/storage/blobs/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to store pets images in the cloud. It can be used to store any kind of file, and is also capable of [hosting static websites](https://docs.microsoft.com/azure/storage/blobs/storage-blob-static-website?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p).
+We will use [Azure Blob Storage](https://azure.microsoft.com/services/storage/blobs/?WT.mc_id=nitro-workshop-yolasors) to store pets images in the cloud. It can be used to store any kind of file, and is also capable of [hosting static websites](https://docs.microsoft.com/azure/storage/blobs/storage-blob-static-website?WT.mc_id=nitro-workshop-yolasors).
 
 As you already created a storage account in [Step 2](/step2), you only need to integrate the `@nestjs/azure-storage` package with this command:
 
