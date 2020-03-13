@@ -1,6 +1,5 @@
 ---
 title: Nitro Workshop - Environment setup
-description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
 navbar: false
 sidebar: false
 ---

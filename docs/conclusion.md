@@ -1,7 +1,3 @@
----
-description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
----
-
 # Conclusion
 
 Congratulations, you just built your *own* serverless API! ⚡️💪

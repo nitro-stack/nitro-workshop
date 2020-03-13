@@ -1,6 +1,5 @@
 ---
 title: Nitro Workshop
-description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
 home: true
 heroImage: nitro.png
 heroText: Nitro workshop

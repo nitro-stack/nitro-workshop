@@ -79,7 +79,7 @@ module.exports = {
       }
     }],
     ['seo', {
-      description: $page => $page.frontmatter.description || ($site.seo && $site.seo.description),
+      description: ($page, $site) => $page.frontmatter.description || ($site.seo && $site.seo.description),
       author: (_, $site) => $site.seo && $site.seo.author,
       url: (_, $site, path) => ($site.seo && $site.seo.url || '') + path,
       image: ($page, $site) => $page.frontmatter.image && (($site.seo && $site.seo.url || '') + $page.frontmatter.image) ||

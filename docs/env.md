@@ -1,7 +1,3 @@
----
-description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
----
-
 # 0. Prerequisites
 ## Install required tools
 
