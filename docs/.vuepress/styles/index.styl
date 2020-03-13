@@ -2,11 +2,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@media screen and (min-width: 769px) {
-  #app {
-    zoom: 120%;
-  }
-}
+// @media screen and (min-width: $MQMobile + 1) {
+//   #app {
+//     zoom: 120%;
+//   }
+// }
 
 div[class*="language-"] .code-copy {
   position: absolute;
@@ -48,4 +48,69 @@ div[class*="language-"] .code-copy {
 .theme-default-content img {
   display: block;
   margin: 0 auto;
+}
+
+// Tabs plugin styling ------------
+
+.tabs-component-tab-a:hover {
+  text-decoration: none !important;
+}
+
+.tabs-component-tabs {
+  border: solid 1px #ddd;
+  border-radius: 6px;
+  margin: 1em 0;
+  padding-left: 0;
+  overflow: hidden;
+}
+
+.tabs-component-tab {
+  color: #999;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: -1px;
+  list-style: none;
+  border-top: solid 1px #ddd;
+
+  &:hover {
+    color: #666;
+  }
+  &.is-active {
+    color: $accentColor;
+  }
+  &.is-disabled * {
+    color: #cdcdcd;
+    cursor: not-allowed !important;
+  }
+}
+
+.tabs-component-tab-a {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  padding: .25em .75em;
+}
+
+@media (min-width: $MQMobile + 1) {
+  .tabs-component-tabs {
+    border: none;
+    align-items: stretch;
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: solid 1px #ddd;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .tabs-component-tab {
+    border: solid 1px transparent;
+    margin-top: 0;
+    margin-bottom: -1px;
+    border-radius 3px 3px 0 0
+    
+    &.is-active {
+      border: solid 1px #ddd;
+      border-bottom-color: #fff;
+    }
+  }
 }

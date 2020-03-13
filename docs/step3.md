@@ -7,30 +7,114 @@ permalink: step3
 
 Now that we have everything set up for our application code and deployment, we can go on with the more serious stuff and add a database instead of using hardcoded data.
 
-## Configure Table Storage
+## Configure Cosmos DB
 
-[Table Storage](https://docs.microsoft.com/azure/storage/tables/table-storage-overview?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) is a simple NoSQL key/value data store that will allow you to save and retrieve data.
+[Cosmos DB](https://azure.microsoft.com/fr-fr/services/cosmos-db/) is a managed distributed NoSQL database that will allow you to save and retrieve data. It supports multiple data models and many well known database APIs, including [MongoDB](https://www.mongodb.com/) that we will use for our application.
 
-You already created a storage account in the previous step, so you now have to generate an access token to allow our application to manipulate data in it:
+![CosmosDB multi-model and different APIs illustration](./images/cosmos-db.png)
+
+First we have to create a Cosmos DB account, which can hold one or more databases.
+
+If you are attending this workshop with an instructor or if you are short on time, you should use the first option **Use trial account**. The second option allows you to create a new account, which is a bit longer.
+
+::::: tabs
+
+:::: tab "Use trial account"
+The quickest way to experiment with Cosmos DB is to use the [Try CosmosDB for free](https://azure.microsoft.com/try/cosmosdb/) website, to get instant access to a pre-provisionned free account for 30 days (renewable).
+
+1. Open the [Try CosmosDB for free](https://azure.microsoft.com/try/cosmosdb/) website, then click on the MongoDB **Create** option:
+
+    ![mongoDB database creation option](./images/try1.png)
+
+2. Log in if needed, then once the database is ready click on the button **Open in Azure Portal**:
+
+    ![open in Azure Portal button](./images/try2.png)
+
+3. Click on the **Data Explorer** tab, then on the **New Collection** button:
+
+    ![screenshot of data explorer](./images/try3.png)
+
+4. Fill in the fields like this: 
+
+    ![screenshot of new collection creation](./images/try4.png)
+
+    ::: tip Pro tip
+    There are two things worth mentioning here:
+    - We choose to share a provisioned throughput of [Request Units](https://docs.microsoft.com/en-us/azure/cosmos-db/request-units) among all our collections within our database, using the checkbox `Provision database throughput`. This greatly helps to reduce costs when using a paid account.
+    - We need to define a shard key (also called [partition key](https://docs.microsoft.com/en-us/azure/cosmos-db/partitioning-overview#choose-partitionkey)) for the collection, to ensure proper [partitioning](https://docs.microsoft.com/en-us/azure/cosmos-db/partitioning-overview). We use the default auto-generated `_id` property by MongoDB for that.
+    :::
+
+5. Finally, go to the `Connection strings` tab and click on the button next to your primary connection string to copy it:
+
+    ![Screenshot of connection strings](./images/try5.png)
+::::
+  
+:::: tab "Create new account"
+
+::: info Note
+There is now a Free Tier for Cosmos DB that includes 5 GB storage and up to 25 collections, with production-grade performance and no expiration period (it's *free forever*!). If you want to use it, you need to create your Cosmos DB account using the [Azure Portal](https://ms.portal.azure.com/#create/Microsoft.DocumentDB) instead of running the CLI command below (choose **MongoDB** for the API).
+:::
+
+We will use the Azure CLI command to create our new Cosmos DB account:
 
 ```sh
-# Get the storage account connection string
-# Use here the storage account name you set in the previous step
-az storage account show-connection-string --name <your_storage_account_name>
-
-# Generate the SAS key
-# It will be valid until the defined expiry date
-az storage account generate-sas --account-name <your_storage_account_name> \
-                                --services btf \
-                                --resource-types sco \
-                                --permissions acdlrw --expiry 2020-12-31
+# Create a Cosmos DB account
+# This name must be globally unique, so change it with your own
+# This takes around ~10 min, so you can move on to the integration
+# step meanwhile
+az cosmosdb create --name <your-funpets-cosmos> \
+                   --resource-group funpets \
+                   --kind MongoDB
 ```
+
+Once the account is created, we need do three more things before switching back to code:
+
+1. Create the MongoDB database.
+
+```sh
+# Don't forget to change the account name with the one you used previously
+az cosmosdb mongodb database create --account-name <your-funpets-cosmos> \
+                                    --resource-group funpets \
+                                    --throughput 400 \
+                                    --name funpets-db
+```
+
+::: tip Pro tip
+We choose to share a provisioned throughput of [Request Units](https://docs.microsoft.com/en-us/azure/cosmos-db/request-units) among all our collections within our database, using the `--throughput` option. This greatly helps to reduce costs.
+:::
+
+2. Create the `stories` collection, where we will put our data.
+
+```sh
+# Don't forget to change the account name with the one you used previously
+az cosmosdb mongodb collection create --account-name <your-funpets-cosmos> \
+                                      --resource-group funpets \
+                                      --database-name funpets-db \
+                                      --name stories \
+                                      --shard _id
+```
+
+::: tip Pro tip
+We need to define a shard key (also called [partition key](https://docs.microsoft.com/en-us/azure/cosmos-db/partitioning-overview#choose-partitionkey)) for the collection, to ensure proper [partitioning](https://docs.microsoft.com/en-us/azure/cosmos-db/partitioning-overview). We use the default auto-generated `_id` property by MongoDB for that.
+:::
+
+3. Finally, we retrieve the connection string to connect our application to the database.
+
+  ```sh
+  # Don't forget to change the account name with the one you used previously
+  az cosmosdb keys list --name <your-funpets-cosmos> \
+                        --resource-group funpets \
+                        --type connection-strings \
+                        --query "connectionStrings[0].connectionString"
+  ```
+::::
+
+:::::
 
 Now edit the file `local.settings.json`, and add these properties to the `Values` list:
 ```json
-"AZURE_STORAGE_ACCOUNT": "<your storage account name>",
-"AZURE_STORAGE_CONNECTION_STRING": "<your storage account connection string>",
-"AZURE_STORAGE_SAS_KEY": "<your SAS key>"
+"MONGODB_CONNECTION_STRING": "<your primary connection string>",
+"MONGODB_DATABASE": "funpets-db",
 ```
 
 Remove this line as it's not needed:
@@ -38,35 +122,49 @@ Remove this line as it's not needed:
 "AzureWebJobsStorage": "",
 ```
 
-These values will be exposed to our app as **environment variables** by the Functions runtime, to allow access to your Azure storage.
+These values will be exposed to our app as **environment variables** by the Functions runtime, to allow access to your database.
 
 ## Integrate with NestJS
 
-You are now ready to integrate the database with your NestJS application. First, you have to install the `@nestjs/azure-database` package with this command:
+You are now ready to use the database in your application. NestJS provides a great integration with [TypeORM](https://typeorm.io) which is the most mature Object Relational Mapper (ORM) available for TypeScript, so we will use that.
+
+First, you have to install the a few more packages with this command:
 
 ```sh
-npm install @nestjs/azure-database
+npm install --save @nestjs/typeorm typeorm mongodb
 ```
 
-Open the file `src/app.module.ts` and add the `AzureTableStorageModule` to the module imports:
+Open the file `src/app.module.ts` and add `TypeOrmModule` to the module imports:
 ```ts
 @Module({
   imports: [
-    AzureTableStorageModule.forFeature(Story, {
-      table: 'stories',
-      createTableIfNotExists: true,
+    TypeOrmModule.forRoot({
+      type: 'mongodb',
+      url: process.env.MONGODB_CONNECTION_STRING,
+      database: process.env.MONGODB_DATABASE,
+      entities: [
+        __dirname + '/**/*.entity{.ts,.js}',
+      ],
+      ssl: true,
+      useUnifiedTopology: true,
+      useNewUrlParser: true
     }),
     ...
   ]
 ```
 
-Don't forget to add the missing imports at the top:
+Don't forget to add the missing import at the top:
 ```ts
-import { AzureTableStorageModule } from '@nestjs/azure-database';
-import { Story } from './stories/story.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 ```
 
-But hey, we don't have a `Story` entity yet? That's right, let's create it!
+::: tip Pro tip
+Using `process.env.<VARIABLE_NAME>` in place of a hardcoded values allows to keep sensitive informations out of your code base and read them from environment variables instead. This also allows you to deploy the exact same code on different environments (like staging and production for example), but with different configurations, as recommend in the [12-factor app](https://12factor.net/config) best practices.
+:::
+
+TypeORM will discover and map your entities following the `*.entity.ts` (`.js` once compiled) naming scheme, as specified in the module options.
+
+But hey, we don't have an entity yet? That's right, let's create it!
 
 ## Create an entity
 
@@ -74,13 +172,15 @@ A database entity is used to model the properties of whatever object you would l
 
 Create a new file `src/stories/story.entity.ts` with this code:
 ```ts
-@EntityPartitionKey('stories')
-@EntityRowKey('id')
+import { Entity, ObjectID, ObjectIdColumn, Column } from 'typeorm';
+
+@Entity('stories')
 export class Story {
-  @EntityString() animal: string;
-  @EntityString() description: string;
-  @EntityString() imageUrl: string;
-  @EntityDateTime() createdAt: Date;
+  @ObjectIdColumn() id: ObjectID;
+  @Column() animal: string;
+  @Column() description: string;
+  @Column() imageUrl: string;
+  @Column() createdAt: Date;
 
   constructor(story?: Partial<Story>) {
     Object.assign(this, story);
@@ -90,23 +190,35 @@ export class Story {
 
 Now let's break down the annotations we have used:
 
-- `@EntityPartitionKey` defines the table storage [`PartitionKey`](https://docs.microsoft.com/rest/api/storageservices/understanding-the-table-service-data-model?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p#partitionkey-property) which can be used to for load balancing across storage nodes.
-- `@EntityRowKey` is the unique identifier of an entity with a given partition.
-- The entity types annotations such as `@EntityString` represent the data type of each property.
-You can find here the complete list of [Entity Data Model types](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model-primitive-data-types?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p)
+- `@Entity` marks the class as a TypeORM entity to be stored into the `stories` collection.
+- `@ObjectIdColumn` marks the unique identifier of an entity that will be mapped to the mandatory MongoDB `_id` property. It will be automatically generated if you don't provide one.
+- `@Column` marks the properties you want to map to a table column. The type of property will also define the type of data that will be stored.
 
-## Inject the service
+::: info Note
+For more complex domain models you can define subdocuments using simple type references, see [this example](https://typeorm.io/#/mongodb/defining-subdocuments-embed-documents) for usage information.
+:::
 
-The next step is to inject the service that provides methods to perform CRUD operations on entities. The `@nestjs/azure-database` package gives you just that, using the annotation `@InjectRepository`.
+## Inject the repository
 
-Open the file `src/stories/stories.controller.ts` and add this constructor:
+TypeORM supports the [repository design pattern](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design#the-repository-pattern), and `@nestjs/typeorm` package provides you an easy way to declare repositories you can inject for each of your entities.
+
+Open the file `src/app.module.ts` again and add this to the module imports:
+```ts
+@Module({
+  imports: [
+    TypeOrmModule.forFeature([Story]),
+    ...
+  ]
+```
+
+Now you can inject your `Story` repository using the annotation `@InjectRepository`. Open the file `src/stories/stories.controller.ts` and add this constructor:
 
 ```ts
 @Controller('stories')
 export class StoriesController {
   constructor(
     @InjectRepository(Story)
-    private readonly storiesRepository: Repository<Story>,
+    private readonly storiesRepository: MongoRepository<Story>,
   ) {}
   ...
 }
@@ -115,17 +227,29 @@ export class StoriesController {
 Don't forget to add these missing imports at the top of the file:
 
 ```ts
-import { InjectRepository, Repository } from '@nestjs/azure-database';
+import { InjectRepository } from '@nestjs/typeorm';
+import { MongoRepository } from 'typeorm';
+import { ObjectID } from 'mongodb';
 import { Story } from './story.entity';
 ```
 
-You can now use `this.storiesRepositoy` within your controller to perform [CRUD operations](https://github.com/nestjs/azure-database#crud-operations):
+You can now use `this.storiesRepositoy` within your controller to perform CRUD operations:
 
-- `create(entity: T, rowKeyValue?: string): Promise<T>`: creates a new entity (if rowKeyValue is null, a UUID will be generated).
-- `find(rowKey: string, entity: Partial<T>): Promise<T>`: finds one entity using its RowKey.
-- `findAll(tableQuery?: azure.TableQuery, currentToken?: azure.TableService.TableContinuationToken): Promise<AzureTableStorageResultList<T>>`: finds all entities that match the given query (return all entities if no query provided).
-- `update(rowKey: string, entity: Partial<T>): Promise<T>`: Updates an entity. It does a partial update.
-- `delete(rowKey: string, entity: T): Promise<AzureTableStorageResponse>`: Removes an entity from the database.
+- `save(entity: PartialEntity<Entity> | PartialEntity<Entity>[], options?: SaveOptions): Promise<Entity | Entity[]>`: inserts one or more entities in the database if they do not exists, updates otherwise.
+- `findOne(criteria?: ObjectID | FindOneOptions<Entity>): Promise<Entity | undefined>`: finds the first entity matching an ID or query options.
+- `find(criteria?: FindManyOptions<Entity>): Promise<Entity[]>`: finds all entities that match the specified criteria (return all entities if none is provided).
+- `update(criteria: ObjectID | ObjectID[] | FindConditions<Entity>, partialEntity: PartialEntity<Entity>): Promise<UpdateResult>`: Updates entities matching the specified criteria. It allows partial updates.
+- `delete(criteria: ObjectID | ObjectID[] | FindConditions<Entity>): Promise<DeleteResult>`: Removes one or more entities matching the specified criteria from the database.
+
+In all these methods, you can either use the entity ID or a regular [MongoDB query](https://docs.mongodb.com/manual/tutorial/query-documents/) to match specific entities. For example, you can use:
+
+```ts
+// Find all cats stories
+await storiesRepository.find({ animal: 'cat' });
+
+// Find the story with the specified ID
+await storiesRepository.findOne(id);
+```
 
 ## Add new endpoints
 
@@ -140,21 +264,21 @@ Let's start with the first one, to retrieve a single story using its ID.
 Add this method to your controller:
 
 ```ts
-  @Get(':id')
-  async getStory(@Param('id') id): Promise<Story> {
-    try {
-      return await this.storiesRepository.find(id, new Story());
-    } catch (error) {
-      // Entity not found
-      throw new NotFoundException(error);
-    }
+@Get(':id')
+async getStory(@Param('id') id): Promise<Story> {
+  const story = ObjectID.isValid(id) && await this.storiesRepository.findOne(id);
+  if (!story) {
+    // Entity not found
+    throw new NotFoundException();
   }
+  return story;
+}
 ```
 
 We use the `@Get()` annotation like in [Step 1](./step1.md#Add-your-first-endpoint), but this time specified a [route parameter](https://docs.nestjs.com/controllers#route-parameters) using `:id`.
 This parameter can then be retrieved with the function arguments using the `@Param('id')` annotation.
 
-Then we call the `storiesRepository.find()` method to find the matching entity. In case it's not found, we catch the error and return a status `404` error using NestJS  predefined exception class `NotFoundException`.
+Then we call the `storiesRepository.findOne()` method to find the matching entity. In case it's not found or if provided ID is invalid, we return a status `404` error using NestJS predefined exception class `NotFoundException`.
 
 After that, it's time for you to work a bit by yourself to add the 2 remaining endpoints 😉.
 
@@ -162,7 +286,7 @@ After that, it's time for you to work a bit by yourself to add the 2 remaining e
 For the create endpoint, if the property `createdAt` is not set, it should be added with the current date.
 :::
 
-If you're stuck, you may find some help in the [NestJS documentation](https://docs.nestjs.com/controllers#full-resource-sample) and [@nestjs/azure-database documentation](https://github.com/nestjs/azure-database#crud-operations).
+If you're stuck, you may find some help in the [NestJS documentation](https://docs.nestjs.com/controllers#full-resource-sample) and the [TypeORM documentation](https://typeorm.io/#/repository-api/repository-api).
 
 ## Test your endpoints
 
@@ -190,7 +314,7 @@ curl http://localhost:7071/api/stories \
 curl http://localhost:7071/api/stories
 # should return a list with the previously added story
 
-curl http://localhost:7071/api/stories/<RowKey_from_post_command>
+curl http://localhost:7071/api/stories/<id_from_post_command>
 # should return this single story
 ```
 
@@ -202,13 +326,30 @@ You can either use the standalone [Storage Explorer application](https://azure.m
 
 We only want to give a quick look, so let's use the online version:
 
+::::: tabs
+
+:::: tab "With a trial Cosmos DB account"
+1. Open the [Try CosmosDB for free](https://azure.microsoft.com/try/cosmosdb/) website again, and click on the button **Open in Azure Portal**:
+
+    ![open in Azure Portal button](./images/try2.png)
+
+2. Click on **Storage Explorer** in the resource menu, then unfold the `funpets-db` database and `stories` collection to open the **Documents** where your data lives in:
+  
+    ![storage explorer](./images/try-explorer.png)
+::::
+  
+:::: tab "With your own Cosmos DB account"
 1. Open [portal.azure.com](https://portal.azure.com?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p)
 
-2. Use the search bar at the top and enter the name of the storage account you created, then click on it in the search results:
-![searching your storage account](./images/storage1.png)
+2. Use the search bar at the top and enter the name of the Cosmos DB account you created, then click on it in the search results:
 
-3. Click on **Storage Explorer** in the resource menu, then unfold the **TABLES** item to open the `stories` container where your data lives in:
-![storage explorer](./images/storage2.png)
+    ![searching your Cosmos DB account](./images/cosmos-portal.png)
+
+3. Click on **Storage Explorer** in the resource menu, then unfold the `funpets-db` database and `stories` collection to open the **Documents** where your data lives in:
+
+    ![storage explorer](./images/cosmos-explorer.png)
+::::
+:::::
 
 From there, you can query your stories, edit or delete them and even create new ones.
 This tool can be helpful to quickly check your data visually and debug things when something's wrong.

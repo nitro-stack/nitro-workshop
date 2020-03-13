@@ -38,8 +38,7 @@ Azure is Microsoft's cloud computing offer for building, testing, deploying and 
 
 For this workshop, we will use [serverless services](https://azure.microsoft.com/solutions/serverless/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to store data and host our application without having to manage any underlying infrastructure. In particular:
 - [Azure Functions](https://azure.microsoft.com/services/functions/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to deploy application code
-- [Azure Table Storage](https://azure.microsoft.com/services/storage/tables/?WT.mc_id=nitro-workshop-yolasors), a simple NoSQL database to store our entities
-<!-- - [Azure Cosmos DB](https://azure.microsoft.com/fr-fr/services/cosmos-db/), a managed distributed NoSQL database to store our entities -->
+- [Azure Cosmos DB](https://azure.microsoft.com/fr-fr/services/cosmos-db/), a managed distributed NoSQL database to store our entities
 - [Azure Blob Storage](https://azure.microsoft.com/services/storage/blobs/?WT.mc_id=nitro-workshop-yolasors&ocid=aid2462702_ThankYou_DevComm&eventId=SnowcampWorkshop__J-5rEio2r5p) to store image files
 
 ### Nitro [(nitr.ooo)](https://nitr.ooo)

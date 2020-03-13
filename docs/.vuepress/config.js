@@ -44,6 +44,9 @@ module.exports = {
     ]
   },
   plugins: [
+    ['tabs', {
+      useUrlFragment: false
+    }],
     ['social-share', {
       noGlobalSocialShare: true,
       networks: ['twitter', 'facebook', 'reddit', 'linkedin', 'whatsapp'],

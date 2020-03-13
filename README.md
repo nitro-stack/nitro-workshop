@@ -15,13 +15,13 @@ See the [online Nitro workshop website](https://nitro-stack.github.io/nitro-work
 
 Leverage the power of Azure Serverless platform to boost your app in production:
 - Host your API with **Functions**
-- Store data with **Table Storage** database
+- Store data with **Cosmos DB** or **Table Storage** databases
 - Upload files with **Blob Storage**
 - And much *more*!
 
 Get started with these awesome tools, and take a look a the [Nitro cats demo app](https://github.com/nitro-stack/nitro-cats) to see them in action!
 - [@nestjs/azure-func-http](https://github.com/nestjs/azure-func-http): Azure Functions HTTP adapter for NestJS
-- [@nestjs/azure-database](https://github.com/nestjs/azure-database): Azure Database (Table Storage and more) module for NestJS
+- [@nestjs/azure-database](https://github.com/nestjs/azure-database): Azure Database (CosmosDB and Table Storage) module for NestJS
 - [@nestjs/azure-storage](https://github.com/nestjs/azure-storage): Azure Storage module for NestJS
 - [Hexa](https://hexa.run): provision resources and deploy your app and data using an interactive CLI
 - [@azure/ng-deploy](https://github.com/Azure/ng-deploy-azure): deploy your Angular apps directly from Angular CLI

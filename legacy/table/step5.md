@@ -1,6 +1,5 @@
 ---
 description: Learn how to make Node.js serverless REST APIs with NestJS and Azure
-permalink: step5
 ---
 
 # 5. Extras
@@ -121,7 +120,7 @@ $ az functionapp cors add \
     --allowed-origins https://yourwebsite.com
 ```
 
-If you want to allow any website to use your API, you can replace the website URL by using `*` instead. In that case, be careful as Azure Functions will auto-scale to handle the workload if millions of users start using it, but so will your bill!
+If you want to allow any website to use your API, you can replace the website URL by using `*` instead. In that case, be careful as Azure Functions will auto-scale to handle the workload if millions of users starts using it, but so will your bill!
 
 ## Enable authorization
 
@@ -131,13 +130,13 @@ Open the file `main/function.json`. In the functions, bindings, notice that `aut
 
 - `anonymous`: no API key is required (default).
 - `function`: an API key specific to this function is required. If none is defined, the `default` one will be used.
-- `admin`: a host API key is required. It will be shared among all functions from the same app.
+- `admin`: an host API key is required. It will be shared among all functions from the same app.
 
 Now change `authLevel` to `function`, and redeploy your function:
 
 ```sh
 # Don't forget to change the name with the one you used previously
-func azure functionapp publish <your-funpets-api> --nozip
+func azure functionapp publish funpets-api --nozip
 ```
 
 Then try to invoke again your API:
@@ -155,8 +154,8 @@ You can either log in to [portal.azure.com](https://portal.azure.com?WT.mc_id=ni
 ```sh
 // Retrieve your resource ID
 # Don't forget to change the name with the one you used previously
-az functionapp show --name <your-funpets-api> \
-                    --resource-group funpets \
+az functionapp show --resource-group funpets \
+                    --name funpets-api \
                     --query id
 
 # Use the resource ID from the previous command
@@ -256,8 +255,8 @@ Your API might currently look fine, but how can you ensure it has as little bugs
 
 Writing automated is not the most fun part of development, but it's a fundamental requirement to develop robust software applications. It helps to catch bugs early, preventing regressions and ensuring that production releases meet your quality and performance goals.
 
-The good news is NestJS has you covered to make your testing experience as smooth as possible.
-When you bootstrapped the project using the `nest` CLI, [Jest](https://jestjs.io) and [SuperTest](https://github.com/visionmedia/supertest) frameworks have been set up for you.
+Good news is NestJS has you covered to make your testing experience as smooth as possible.
+When you bootstrapped the project using the `nest` CLI, [Jest](https://jestjs.io) and [SuperTest](https://github.com/visionmedia/supertest) frameworks have been setup for you.
 
 Each time you run the `nest generate` command, unit test files are also created for you with the extension `.spec.ts`.
 
@@ -272,7 +271,7 @@ Now run the `npm test` command. Oops, it seems that `src/stories/stories.control
 
 ### Add module and providers mocks
 
-If you look at the stack trace, you can see that the reason is that `@nestjs/typeorm` and `AzureStorageModule` services cannot be resolved. It's expected: when running unit tests, you want to isolate the code you are testing as much as possible, and for that you can see that each test file provides its own module definition:
+If you look at the stack trace, you can see that the reason is that `AzureTableStorageModule` and `AzureStorageModule` services cannot be resolved. It's expected: when running unit tests, you want to isolate the code you are testing as much as possible, and for that you can see that each test file provides its own module definition:
 
 ```ts
 beforeEach(async () => {
@@ -329,7 +328,7 @@ And complete the missing import:
 import { AzureStorageService } from '@nestjs/azure-storage';
 ```
 
-#### Mock `@nestjs/typeorm`
+#### Mock `@nestjs/azure-database`
 
 We also need to mock the `storiesRepository` service injected in our controller using `@InjectRepository(Story)`, but how to do that?
 
@@ -338,7 +337,8 @@ We can still use Jest automatic mock generation:
 
 ```ts
 // Add this code after the imports
-const mockRepository = jest.genMockFromModule<any>('typeorm').MongoRepository;
+const repositoryMock = jest.genMockFromModule<any>('@nestjs/azure-database')
+  .AzureTableStorageRepository;
 ```
 
 Its injection token is generated dynamically, so we need to add a [custom provider](https://docs.nestjs.com/fundamentals/custom-providers#custom-providers-1) to our testing module to reproduce the same behavior:
@@ -349,7 +349,7 @@ beforeEach(async () => {
     controllers: [StoriesController],
       providers: [
         AzureStorageService,
-        { provide: getRepositoryToken(Story), useValue: mockRepository },
+        { provide: getRepositoryToken(Story), useValue: repositoryMock },
       ],
   }).compile();
 
@@ -364,7 +364,7 @@ We had to look at the implementation `@InjectRepository()` annotation to find ou
 Don't forget to add missing imports:
 
 ```ts
-import { getRepositoryToken } from '@nestjs/typeorm';
+import { getRepositoryToken } from '@nestjs/azure-database';
 import { Story } from './story.entity';
 ```
 
