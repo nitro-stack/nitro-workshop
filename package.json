@@ -30,7 +30,8 @@
     "build:release": "npm run devcontainer:update -s && npm run build -s",
     "devcontainer:update": "cd src && zip -R ../docs/.vuepress/public/devcontainer.zip .devcontainer/*",
     "deploy": "gh-pages -d dist",
-    "release": "npm run build:release -s && npm run deploy -s"
+    "release": "npm run build:release -s && npm run deploy -s",
+    "links": "cxa -t nitro-workshop-yolasors docs/*.md"
   },
   "keywords": [],
   "author": "",

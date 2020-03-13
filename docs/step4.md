@@ -168,3 +168,8 @@ curl https://<your-funpets-api>.azurewebsites.net/api/stories
   -F "animal=cat" \
   -F "description=Happy cat"
 ```
+
+<br>
+
+-----
+**Solution:** see the [code for step 4](https://github.com/nitro-stack/nitro-workshop/tree/step4)

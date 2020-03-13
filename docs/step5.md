@@ -384,3 +384,8 @@ If you are not familiar with Jest you might want to take a look at the [document
 For end-to-end tests, HTTP assertions are made using the [SuperTest library](https://github.com/visionmedia/supertest).
 
 You can also find examples and more information in the [NestJS documentation](https://docs.nestjs.com/fundamentals/testing#unit-testing).
+
+<br>
+
+-----
+**Solution:** see the [code for extras](https://github.com/nitro-stack/nitro-workshop/tree/step5)

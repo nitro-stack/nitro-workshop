@@ -122,3 +122,8 @@ curl http://localhost:3000/api/stories/random
 You should see a random cat fact in the console each time you invoke this command. You now have a working API! 🎉
 
 Ok, this was just the warmup to get a hand of the NestJS API, now let's deploy what we just built before moving on to more serious stuff 💪.
+
+<br>
+
+-----
+**Solution:** see the [code for step 1](https://github.com/nitro-stack/nitro-workshop/tree/step1)

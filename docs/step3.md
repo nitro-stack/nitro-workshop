@@ -376,3 +376,10 @@ Then invoke one of the newer API to check that deployment went fine:
 ```sh
 curl https://<your-funpets-api>.azurewebsites.net/api/stories
 ```
+
+<br>
+
+-----
+**Solution:** see the [code for step 3](https://github.com/nitro-stack/nitro-workshop/tree/step3)
+
+
