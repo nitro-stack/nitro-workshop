@@ -158,7 +158,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 ```
 
 ::: tip Pro tip
-Using `process.env.<VARIABLE_NAME>` in place of a hardcoded values allows to keep sensitive informations out of your code base and read them from environment variables instead. This also allows you to deploy the exact same code on different environments (like staging and production for example), but with different configurations, as recommend in the [12-factor app](https://12factor.net/config) best practices.
+Using `process.env.<VARIABLE_NAME>` in place of hardcoded values allows to keep sensitive informations out of your code base and read them from environment variables instead. This also allows you to deploy the exact same code on different environments (like staging and production for example), but with different configurations, as recommend in the [12-factor app](https://12factor.net/config) best practices.
 :::
 
 TypeORM will discover and map your entities following the `*.entity.ts` (`.js` once compiled) naming scheme, as specified in the module options.
@@ -244,10 +244,10 @@ In all these methods, you can either use the entity ID or a regular [MongoDB que
 
 ```ts
 // Find all cats stories
-await storiesRepository.find({ animal: 'cat' });
+await this.storiesRepository.find({ animal: 'cat' });
 
 // Find the story with the specified ID
-await storiesRepository.findOne(id);
+await this.storiesRepository.findOne(id);
 ```
 
 ## Add new endpoints
@@ -274,7 +274,7 @@ async getStory(@Param('id') id): Promise<Story> {
 }
 ```
 
-We use the `@Get()` annotation like in [Step 1](./step1.md#Add-your-first-endpoint), but this time specified a [route parameter](https://docs.nestjs.com/controllers#route-parameters) using `:id`.
+We use the `@Get()` annotation like in [Step 1](./step1.md#Add-your-first-endpoint), but this time we add a [route parameter](https://docs.nestjs.com/controllers#route-parameters) using `:id`.
 This parameter can then be retrieved with the function arguments using the `@Param('id')` annotation.
 
 Then we call the `storiesRepository.findOne()` method to find the matching entity. In case it's not found or if provided ID is invalid, we return a status `404` error using NestJS predefined exception class `NotFoundException`.
