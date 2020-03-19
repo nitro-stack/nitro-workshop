@@ -295,7 +295,7 @@ After you finished adding the new endpoints, start your server using the functio
 npm run start:azure
 ```
 
-After the server is started, you can test if your new endpoints behave correctly using `curl`:
+When the server is started, you can test if your new endpoints behave correctly using `curl`:
 
 ```sh
 curl http://localhost:7071/api/stories
@@ -319,7 +319,7 @@ curl http://localhost:7071/api/stories/<id_from_post_command>
 
 ## Explore your data
 
-As you should have created to stories at this point, why not take a look a the data you have created?
+As you should have created some stories at this point, why not take a look a the data you have directly in the database?
 
 You can either use the standalone [Storage Explorer application](https://azure.microsoft.com/features/storage-explorer/?WT.mc_id=nitro-workshop-yolasors) for that, or go to the Azure portal and access the online version.
 
