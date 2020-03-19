@@ -319,7 +319,7 @@ curl http://localhost:7071/api/stories/<id_from_post_command>
 
 ## Explore your data
 
-As you should have created some stories at this point, why not take a look a the data you have directly in the database?
+As you should have created some stories at this point, why not take a look at the data you have directly in the database?
 
 You can either use the standalone [Storage Explorer application](https://azure.microsoft.com/features/storage-explorer/?WT.mc_id=nitro-workshop-yolasors) for that, or go to the Azure portal and access the online version.
 
