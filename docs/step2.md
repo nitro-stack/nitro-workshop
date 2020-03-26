@@ -156,7 +156,7 @@ az functionapp deployment source config --name <your-funpets-api> \
 :::
 
 ::: tip Pro tip #2
-For this workshop, we use the `--nozip` option for deployment to disable the *Run-From-Package* mode that runs the app directly from a read-only zip package. This is needed to run `npm install` remotely thanks to the `SCM_DO_BUILD_DURING_DEPLOYMENT=true` setting, to reduce upload times. But for production environments, you should avoid using that as your application startup time is slightly longer when `--nozip` option is used.
+For this workshop, we use the `--nozip` option for deployment to disable the *Run-From-Package* mode that runs the app directly from a read-only zip package. This is needed to run `npm install` remotely thanks to the `SCM_DO_BUILD_DURING_DEPLOYMENT=true` setting, to reduce upload times. But for production environments, you should avoid using that as your application startup time is slightly longer when `--nozip` option is used. Make sure the `.funcignore` file no longer contains the earlier added line with `node_modules`, else the zip deployment won't contain the node_modules folder.
 :::
 
 <br>
