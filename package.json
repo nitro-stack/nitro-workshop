@@ -26,8 +26,8 @@
   "scripts": {
     "start": "vuepress dev docs --no-cache",
     "devcontainer:update": "cd src && zip -R ../docs/.vuepress/public/devcontainer.zip .devcontainer/*",
-    "build:site": "vuepress build docs -d dist",
-    "build": "npm run devcontainer:update -s && npm run build:site -s",
+    "build": "vuepress build docs -d dist",
+    "build:release": "npm run devcontainer:update -s && npm run build -s",
     "deploy": "gh-pages -d redirect",
     "release": "npm run build -s && npm run deploy -s",
     "links": "cxa -t nitro-workshop-yolasors docs/*.md"
