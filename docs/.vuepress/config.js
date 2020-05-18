@@ -23,7 +23,7 @@ module.exports = {
     // ['meta', { name: 'msapplication-TileImage', content: '/icons/msapplication-icon-144x144.png' }],
     ['meta', { name: 'msapplication-TileColor', content: '#0078d7' }]
   ],
-  base: '/nitro-workshop/',
+  base: '/',
   themeConfig: {
     logo: '/nitro.png',
     sidebar: [   
@@ -55,7 +55,7 @@ module.exports = {
       noGlobalSocialShare: true,
       networks: ['twitter', 'facebook', 'reddit', 'linkedin', 'whatsapp'],
       twitterUser: 'sinedied',
-      fallbackImage: 'https://nitro-stack.github.io/nitro-workshop/nitro.png',
+      fallbackImage: 'https://black-cliff-0123f8e1e.azurestaticapps.net/nitro.png',
       autoQuote: true,
       extendsNetworks: {
         linkedin: {
