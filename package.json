@@ -25,11 +25,11 @@
   },
   "scripts": {
     "start": "vuepress dev docs --no-cache",
-    "build": "vuepress build docs -d dist",
-    "build:release": "npm run devcontainer:update -s && npm run build -s",
     "devcontainer:update": "cd src && zip -R ../docs/.vuepress/public/devcontainer.zip .devcontainer/*",
-    "deploy": "gh-pages -d dist",
-    "release": "npm run build:release -s && npm run deploy -s",
+    "build:site": "vuepress build docs -d dist",
+    "build": "npm run devcontainer:update -s && npm run build:site -s",
+    "deploy": "gh-pages -d redirect",
+    "release": "npm run build -s && npm run deploy -s",
     "links": "cxa -t nitro-workshop-yolasors docs/*.md"
   },
   "keywords": [],
